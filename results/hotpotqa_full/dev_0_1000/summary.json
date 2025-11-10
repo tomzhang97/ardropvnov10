@@ -1,0 +1,55 @@
+{
+  "config": {
+    "data_path": "runs/_shards/dev_0_1000.json",
+    "output_dir": "results/hotpotqa_full/dev_0_1000",
+    "llm_model": "meta-llama/Meta-Llama-3-8B-Instruct",
+    "embed_model": "sentence-transformers/all-MiniLM-L6-v2",
+    "device": 0,
+    "limit": 0,
+    "retrieval_k": 3,
+    "lambda_redundancy": 0.3,
+    "risk_budget_alpha": 0.05,
+    "budget_tokens": 0,
+    "seed": 42
+  },
+  "summary": {
+    "agentragdrop_none": {
+      "n": 1000,
+      "em_mean": 0.125,
+      "em_std": 0.33071891388307384,
+      "f1_mean": 0.18167236529380495,
+      "f1_std": 0.35706688348192017,
+      "tokens_mean": 578.649,
+      "tokens_std": 109.16428811200117,
+      "latency_mean": 1311.9358174800873,
+      "latency_p50": 1336.9182143360376,
+      "latency_p95": 3079.397691320628
+    },
+    "agentragdrop_lazy_greedy": {
+      "n": 1000,
+      "em_mean": 0.125,
+      "em_std": 0.33071891388307384,
+      "f1_mean": 0.18167236529380495,
+      "f1_std": 0.35706688348192017,
+      "tokens_mean": 348.967,
+      "tokens_std": 32.5827241187719,
+      "latency_mean": 536.0138332769275,
+      "latency_p50": 893.4620311483741,
+      "latency_p95": 900.5842814221978
+    },
+    "agentragdrop_risk_controlled": {
+      "n": 1000,
+      "em_mean": 0.125,
+      "em_std": 0.33071891388307384,
+      "f1_mean": 0.18167236529380495,
+      "f1_std": 0.35706688348192017,
+      "tokens_mean": 348.967,
+      "tokens_std": 32.5827241187719,
+      "latency_mean": 538.295233855024,
+      "latency_p50": 897.3793555051088,
+      "latency_p95": 904.7501160763204
+    }
+  },
+  "significance_tests": {},
+  "timestamp": "2025-11-10 12:28:34"
+}

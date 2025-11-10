@@ -1,0 +1,2856 @@
+{
+  "config": {
+    "llm_model": "Qwen/Qwen3-8B",
+    "embed_model": "sentence-transformers/all-MiniLM-L6-v2",
+    "evidence_k": 8,
+    "sp_k": 2,
+    "use_answer_type": true,
+    "use_answer_guided_sp": true,
+    "num_examples": 405,
+    "device": 0
+  },
+  "aggregate": {
+    "total_latency_s": 541.01,
+    "avg_latency_ms": 1335.83,
+    "total_tokens": 166335,
+    "avg_tokens_per_example": 410.7,
+    "throughput_examples_per_sec": 0.75
+  },
+  "per_example": [
+    {
+      "_id": "5ac0d732554299294b219030",
+      "latency_ms": 1880.2362447604537,
+      "retrieval_ms": 247.62195348739624,
+      "generation_ms": 1632.5622843578458,
+      "tokens": 539
+    },
+    {
+      "_id": "5ae54bbd5542990ba0bbb262",
+      "latency_ms": 1359.3165464699268,
+      "retrieval_ms": 44.99723017215729,
+      "generation_ms": 1301.5805445611477,
+      "tokens": 336
+    },
+    {
+      "_id": "5a8637415542994775f60724",
+      "latency_ms": 1325.2999186515808,
+      "retrieval_ms": 47.28843551129103,
+      "generation_ms": 1264.8473493754864,
+      "tokens": 360
+    },
+    {
+      "_id": "5a7621bb554299109176e650",
+      "latency_ms": 1454.751924611628,
+      "retrieval_ms": 58.91804303973913,
+      "generation_ms": 1384.08621866256,
+      "tokens": 400
+    },
+    {
+      "_id": "5ac3a47f554299391541386d",
+      "latency_ms": 1317.4316538497806,
+      "retrieval_ms": 39.77069351822138,
+      "generation_ms": 1264.8865031078458,
+      "tokens": 441
+    },
+    {
+      "_id": "5a89b8f0554299669944a580",
+      "latency_ms": 1314.1919197514653,
+      "retrieval_ms": 46.36906087398529,
+      "generation_ms": 1267.6944397389889,
+      "tokens": 270
+    },
+    {
+      "_id": "5ab870ee5542990e739ec8f6",
+      "latency_ms": 1348.8754779100418,
+      "retrieval_ms": 44.95004191994667,
+      "generation_ms": 1282.2059439495206,
+      "tokens": 397
+    },
+    {
+      "_id": "5ac15f6c5542994d76dccdf3",
+      "latency_ms": 1335.021329112351,
+      "retrieval_ms": 41.17405507713556,
+      "generation_ms": 1282.0406258106232,
+      "tokens": 417
+    },
+    {
+      "_id": "5a8c6342554299240d9c214a",
+      "latency_ms": 1335.2586356922984,
+      "retrieval_ms": 36.702901124954224,
+      "generation_ms": 1281.1947669833899,
+      "tokens": 449
+    },
+    {
+      "_id": "5adcbc645542994d58a2f6b6",
+      "latency_ms": 1332.3177685961127,
+      "retrieval_ms": 46.60842567682266,
+      "generation_ms": 1273.8856337964535,
+      "tokens": 331
+    },
+    {
+      "_id": "5aba7fd055429955dce3ee5e",
+      "latency_ms": 1339.2572905868292,
+      "retrieval_ms": 58.94448608160019,
+      "generation_ms": 1268.1995751336217,
+      "tokens": 436
+    },
+    {
+      "_id": "5ac270e05542992f1f2b38c9",
+      "latency_ms": 1331.2304941937327,
+      "retrieval_ms": 56.29657208919525,
+      "generation_ms": 1263.1172491237521,
+      "tokens": 356
+    },
+    {
+      "_id": "5ab64cfa55429953192ad2b7",
+      "latency_ms": 1319.5237778127193,
+      "retrieval_ms": 38.20492047816515,
+      "generation_ms": 1269.5921743288636,
+      "tokens": 379
+    },
+    {
+      "_id": "5ac39844554299741d48a2ac",
+      "latency_ms": 1312.8119874745607,
+      "retrieval_ms": 27.093837037682533,
+      "generation_ms": 1273.5380250960588,
+      "tokens": 426
+    },
+    {
+      "_id": "5a8b84875542995d1e6f13d7",
+      "latency_ms": 1342.4072926864028,
+      "retrieval_ms": 43.64372510462999,
+      "generation_ms": 1286.3068291917443,
+      "tokens": 470
+    },
+    {
+      "_id": "5a8bd2f95542997f31a41dd2",
+      "latency_ms": 1328.0028542503715,
+      "retrieval_ms": 53.220007568597794,
+      "generation_ms": 1261.7042884230614,
+      "tokens": 440
+    },
+    {
+      "_id": "5a7f39d055429934daa2fd2a",
+      "latency_ms": 1398.1077568605542,
+      "retrieval_ms": 25.70723183453083,
+      "generation_ms": 1360.233691520989,
+      "tokens": 480
+    },
+    {
+      "_id": "5a7a49d85542994f819ef1bc",
+      "latency_ms": 1378.6396719515324,
+      "retrieval_ms": 21.22047170996666,
+      "generation_ms": 1344.8149282485247,
+      "tokens": 439
+    },
+    {
+      "_id": "5abd573c55429924427fcfb7",
+      "latency_ms": 1316.6360156610608,
+      "retrieval_ms": 42.52036940306425,
+      "generation_ms": 1262.0926834642887,
+      "tokens": 395
+    },
+    {
+      "_id": "5addffa75542992200553bdc",
+      "latency_ms": 1323.887374252081,
+      "retrieval_ms": 38.27365580946207,
+      "generation_ms": 1272.6195733994246,
+      "tokens": 419
+    },
+    {
+      "_id": "5ab613985542992aa134a418",
+      "latency_ms": 1305.1506765186787,
+      "retrieval_ms": 26.2735765427351,
+      "generation_ms": 1267.3124633729458,
+      "tokens": 342
+    },
+    {
+      "_id": "5ac09d265542992a796ded39",
+      "latency_ms": 1425.5501423031092,
+      "retrieval_ms": 52.21537500619888,
+      "generation_ms": 1360.6926258653402,
+      "tokens": 510
+    },
+    {
+      "_id": "5a904b0c5542995651fb510e",
+      "latency_ms": 1321.897423826158,
+      "retrieval_ms": 40.633984841406345,
+      "generation_ms": 1269.7629919275641,
+      "tokens": 406
+    },
+    {
+      "_id": "5abda6e955429965af743d9b",
+      "latency_ms": 1344.7392350062728,
+      "retrieval_ms": 49.293008632957935,
+      "generation_ms": 1284.3454433605075,
+      "tokens": 301
+    },
+    {
+      "_id": "5abcee275542993a06baf9af",
+      "latency_ms": 1330.2375664934516,
+      "retrieval_ms": 47.05146513879299,
+      "generation_ms": 1271.379760466516,
+      "tokens": 357
+    },
+    {
+      "_id": "5a8484495542997175ce1ee8",
+      "latency_ms": 1435.1649601012468,
+      "retrieval_ms": 53.899191319942474,
+      "generation_ms": 1369.1809177398682,
+      "tokens": 486
+    },
+    {
+      "_id": "5ab852c05542990e739ec8c5",
+      "latency_ms": 1318.2222992181778,
+      "retrieval_ms": 43.116237968206406,
+      "generation_ms": 1262.9112005233765,
+      "tokens": 393
+    },
+    {
+      "_id": "5ac3a0db554299391541383a",
+      "latency_ms": 1303.2778101041913,
+      "retrieval_ms": 27.386763133108616,
+      "generation_ms": 1264.1725847497582,
+      "tokens": 417
+    },
+    {
+      "_id": "5a8cea40554299441c6b9f76",
+      "latency_ms": 1330.363073386252,
+      "retrieval_ms": 40.51511641591787,
+      "generation_ms": 1277.7642328292131,
+      "tokens": 428
+    },
+    {
+      "_id": "5ac3d68f554299076e296ca6",
+      "latency_ms": 1421.3239820674062,
+      "retrieval_ms": 46.410420909523964,
+      "generation_ms": 1355.0211088731885,
+      "tokens": 417
+    },
+    {
+      "_id": "5ab969ca55429970cfb8eac9",
+      "latency_ms": 1321.4473687112331,
+      "retrieval_ms": 47.76803031563759,
+      "generation_ms": 1261.2247057259083,
+      "tokens": 369
+    },
+    {
+      "_id": "5ac1a6bf5542991316484b8d",
+      "latency_ms": 1356.4861388877034,
+      "retrieval_ms": 44.146088883280754,
+      "generation_ms": 1300.745920278132,
+      "tokens": 414
+    },
+    {
+      "_id": "5a8f4d895542992414482a2d",
+      "latency_ms": 1334.426830522716,
+      "retrieval_ms": 18.727248534560204,
+      "generation_ms": 1303.4957721829414,
+      "tokens": 435
+    },
+    {
+      "_id": "5a84de255542991dd0999e06",
+      "latency_ms": 1363.0566224455833,
+      "retrieval_ms": 43.38970314711332,
+      "generation_ms": 1306.5884318202734,
+      "tokens": 419
+    },
+    {
+      "_id": "5adf3feb5542993a75d2644c",
+      "latency_ms": 1322.4937040358782,
+      "retrieval_ms": 40.10248836129904,
+      "generation_ms": 1262.1429804712534,
+      "tokens": 367
+    },
+    {
+      "_id": "5ab3c48755429969a97a81b8",
+      "latency_ms": 1352.7821572497487,
+      "retrieval_ms": 67.42758210748434,
+      "generation_ms": 1273.0500139296055,
+      "tokens": 480
+    },
+    {
+      "_id": "5a83093c55429966c78a6b01",
+      "latency_ms": 1363.2766613736749,
+      "retrieval_ms": 38.15755341202021,
+      "generation_ms": 1313.052162528038,
+      "tokens": 429
+    },
+    {
+      "_id": "5ae5fb2d554299546bf82ff5",
+      "latency_ms": 1342.8215580061078,
+      "retrieval_ms": 54.33293152600527,
+      "generation_ms": 1276.3072811067104,
+      "tokens": 387
+    },
+    {
+      "_id": "5add24375542992c1e3a2542",
+      "latency_ms": 1320.3465221449733,
+      "retrieval_ms": 22.05752208828926,
+      "generation_ms": 1284.5155000686646,
+      "tokens": 384
+    },
+    {
+      "_id": "5ac3ba1855429939154138f3",
+      "latency_ms": 1321.609914302826,
+      "retrieval_ms": 28.06423418223858,
+      "generation_ms": 1280.1867807283998,
+      "tokens": 492
+    },
+    {
+      "_id": "5ab46a0f5542990594ba9c1b",
+      "latency_ms": 1381.0884384438396,
+      "retrieval_ms": 56.986644864082336,
+      "generation_ms": 1309.3604817986488,
+      "tokens": 366
+    },
+    {
+      "_id": "5a7f40055542992e7d278cc0",
+      "latency_ms": 1335.0845146924257,
+      "retrieval_ms": 21.15018293261528,
+      "generation_ms": 1301.8990652635694,
+      "tokens": 357
+    },
+    {
+      "_id": "5a865e8a55429960ec39b67a",
+      "latency_ms": 1369.0072037279606,
+      "retrieval_ms": 42.27569047361612,
+      "generation_ms": 1314.5525166764855,
+      "tokens": 380
+    },
+    {
+      "_id": "5abb326055429966062416e7",
+      "latency_ms": 1344.3211950361729,
+      "retrieval_ms": 27.553966268897057,
+      "generation_ms": 1304.7807943075895,
+      "tokens": 374
+    },
+    {
+      "_id": "5ab545d3554299494045ef5c",
+      "latency_ms": 1363.6062340810895,
+      "retrieval_ms": 46.50506656616926,
+      "generation_ms": 1305.1050556823611,
+      "tokens": 434
+    },
+    {
+      "_id": "5a74cfc75542996c70cfadfe",
+      "latency_ms": 1346.188054420054,
+      "retrieval_ms": 45.24735361337662,
+      "generation_ms": 1288.8573575764894,
+      "tokens": 475
+    },
+    {
+      "_id": "5ae0b82855429906c02daaff",
+      "latency_ms": 1346.9737209379673,
+      "retrieval_ms": 59.95896179229021,
+      "generation_ms": 1267.4517938867211,
+      "tokens": 406
+    },
+    {
+      "_id": "5ae1a7c8554299234fd042b0",
+      "latency_ms": 1335.226595401764,
+      "retrieval_ms": 46.21961712837219,
+      "generation_ms": 1277.1202670410275,
+      "tokens": 523
+    },
+    {
+      "_id": "5a7c99d555429935c91b5254",
+      "latency_ms": 1320.2189365401864,
+      "retrieval_ms": 38.218455389142036,
+      "generation_ms": 1269.3067230284214,
+      "tokens": 327
+    },
+    {
+      "_id": "5a8b7ca65542997f31a41d49",
+      "latency_ms": 1321.0976412519813,
+      "retrieval_ms": 45.020959340035915,
+      "generation_ms": 1264.164217747748,
+      "tokens": 512
+    },
+    {
+      "_id": "5a86141f5542996432c571a5",
+      "latency_ms": 1310.574515722692,
+      "retrieval_ms": 20.531839691102505,
+      "generation_ms": 1267.5812169909477,
+      "tokens": 478
+    },
+    {
+      "_id": "5abe87cb5542993f32c2a156",
+      "latency_ms": 1309.5279671251774,
+      "retrieval_ms": 40.42714089155197,
+      "generation_ms": 1257.4572442099452,
+      "tokens": 362
+    },
+    {
+      "_id": "5a78eff155429974737f790a",
+      "latency_ms": 1330.5808994919062,
+      "retrieval_ms": 41.04613792151213,
+      "generation_ms": 1276.6800904646516,
+      "tokens": 454
+    },
+    {
+      "_id": "5a8b84905542997f31a41d5d",
+      "latency_ms": 1332.2550002485514,
+      "retrieval_ms": 44.121489860117435,
+      "generation_ms": 1276.4541851356626,
+      "tokens": 413
+    },
+    {
+      "_id": "5abecdf45542997719eab5d4",
+      "latency_ms": 1341.744908131659,
+      "retrieval_ms": 56.40438385307789,
+      "generation_ms": 1273.077443242073,
+      "tokens": 490
+    },
+    {
+      "_id": "5abbf8bc5542993f40c73c35",
+      "latency_ms": 1296.0783448070288,
+      "retrieval_ms": 17.658540047705173,
+      "generation_ms": 1267.1552635729313,
+      "tokens": 299
+    },
+    {
+      "_id": "5abace6b5542996cc5e49e99",
+      "latency_ms": 1404.8130679875612,
+      "retrieval_ms": 59.174519032239914,
+      "generation_ms": 1333.1991638988256,
+      "tokens": 382
+    },
+    {
+      "_id": "5adfb790554299603e418389",
+      "latency_ms": 1327.9000781476498,
+      "retrieval_ms": 38.18701021373272,
+      "generation_ms": 1269.2973660305142,
+      "tokens": 372
+    },
+    {
+      "_id": "5ac11ee45542997d64295a7d",
+      "latency_ms": 1317.660509608686,
+      "retrieval_ms": 38.068667985498905,
+      "generation_ms": 1267.61060860008,
+      "tokens": 419
+    },
+    {
+      "_id": "5a7e1b7155429965cec5ea6c",
+      "latency_ms": 1312.763980589807,
+      "retrieval_ms": 43.75168588012457,
+      "generation_ms": 1257.6326904818416,
+      "tokens": 348
+    },
+    {
+      "_id": "5a89f58f5542992e4fca84af",
+      "latency_ms": 1295.2307807281613,
+      "retrieval_ms": 29.246386140584946,
+      "generation_ms": 1254.3783877044916,
+      "tokens": 379
+    },
+    {
+      "_id": "5add2dae5542992c1e3a2558",
+      "latency_ms": 1319.430774077773,
+      "retrieval_ms": 42.069755494594574,
+      "generation_ms": 1265.9377623349428,
+      "tokens": 404
+    },
+    {
+      "_id": "5abce1fa5542993a06baf993",
+      "latency_ms": 1321.3007422164083,
+      "retrieval_ms": 38.00528962165117,
+      "generation_ms": 1270.8666324615479,
+      "tokens": 507
+    },
+    {
+      "_id": "5a89e47f5542992e4fca8457",
+      "latency_ms": 1340.6463181599975,
+      "retrieval_ms": 44.10871863365173,
+      "generation_ms": 1284.6613842993975,
+      "tokens": 428
+    },
+    {
+      "_id": "5ae658855542992ae0d162e3",
+      "latency_ms": 1308.6669174954295,
+      "retrieval_ms": 26.14265587180853,
+      "generation_ms": 1270.10163012892,
+      "tokens": 461
+    },
+    {
+      "_id": "5ae69cfe55429908198fa65f",
+      "latency_ms": 1337.206007912755,
+      "retrieval_ms": 56.18417542427778,
+      "generation_ms": 1268.3354569599032,
+      "tokens": 495
+    },
+    {
+      "_id": "5a7e689f55429934daa2fc1c",
+      "latency_ms": 1355.3529409691691,
+      "retrieval_ms": 46.93011939525604,
+      "generation_ms": 1296.5088384225965,
+      "tokens": 424
+    },
+    {
+      "_id": "5a886364554299206df2b24b",
+      "latency_ms": 1328.4186711534858,
+      "retrieval_ms": 39.5709527656436,
+      "generation_ms": 1277.1045761182904,
+      "tokens": 363
+    },
+    {
+      "_id": "5a7a70b355429941d65f2647",
+      "latency_ms": 1334.4442518427968,
+      "retrieval_ms": 42.65453573316336,
+      "generation_ms": 1278.8819400593638,
+      "tokens": 490
+    },
+    {
+      "_id": "5a7335b55542992359bc3290",
+      "latency_ms": 1339.110054075718,
+      "retrieval_ms": 55.87589181959629,
+      "generation_ms": 1271.9705794006586,
+      "tokens": 371
+    },
+    {
+      "_id": "5a78b3f7554299148911f94c",
+      "latency_ms": 1320.7168988883495,
+      "retrieval_ms": 21.14697638899088,
+      "generation_ms": 1287.637073546648,
+      "tokens": 493
+    },
+    {
+      "_id": "5a80a25d5542995d8a8ddfb7",
+      "latency_ms": 1318.001952022314,
+      "retrieval_ms": 27.377547696232796,
+      "generation_ms": 1278.526117093861,
+      "tokens": 444
+    },
+    {
+      "_id": "5a8f25175542997ba9cb31ea",
+      "latency_ms": 1322.0597291365266,
+      "retrieval_ms": 44.392721727490425,
+      "generation_ms": 1265.9758431836963,
+      "tokens": 376
+    },
+    {
+      "_id": "5adeacf955429975fa854f66",
+      "latency_ms": 1322.2719226032495,
+      "retrieval_ms": 44.50589045882225,
+      "generation_ms": 1265.4856201261282,
+      "tokens": 390
+    },
+    {
+      "_id": "5ab28156554299449642c8ce",
+      "latency_ms": 1308.30099247396,
+      "retrieval_ms": 26.116780936717987,
+      "generation_ms": 1270.7175053656101,
+      "tokens": 435
+    },
+    {
+      "_id": "5a84d71c5542997b5ce3ff75",
+      "latency_ms": 1337.075635790825,
+      "retrieval_ms": 59.378755278885365,
+      "generation_ms": 1266.5387252345681,
+      "tokens": 355
+    },
+    {
+      "_id": "5a810506554299260e20a202",
+      "latency_ms": 1334.3447335064411,
+      "retrieval_ms": 43.43816731125116,
+      "generation_ms": 1270.7858504727483,
+      "tokens": 396
+    },
+    {
+      "_id": "5ab5279d5542996a3a96a03f",
+      "latency_ms": 1333.208417519927,
+      "retrieval_ms": 44.66607328504324,
+      "generation_ms": 1276.9039338454604,
+      "tokens": 460
+    },
+    {
+      "_id": "5ae1cb04554299234fd042fd",
+      "latency_ms": 1342.0628234744072,
+      "retrieval_ms": 29.322980903089046,
+      "generation_ms": 1300.0039318576455,
+      "tokens": 518
+    },
+    {
+      "_id": "5a90b3c65542990a984936b7",
+      "latency_ms": 1375.8912170305848,
+      "retrieval_ms": 48.06553293019533,
+      "generation_ms": 1315.8550066873431,
+      "tokens": 384
+    },
+    {
+      "_id": "5a8dff3f5542995085b37370",
+      "latency_ms": 1344.140961766243,
+      "retrieval_ms": 38.08679524809122,
+      "generation_ms": 1294.7600558400154,
+      "tokens": 384
+    },
+    {
+      "_id": "5ab3fa095542992ade7c6f0a",
+      "latency_ms": 1327.5579875335097,
+      "retrieval_ms": 49.2255175486207,
+      "generation_ms": 1266.6155621409416,
+      "tokens": 377
+    },
+    {
+      "_id": "5a76a8bb5542993569682c76",
+      "latency_ms": 1335.7619578018785,
+      "retrieval_ms": 42.20814723521471,
+      "generation_ms": 1281.2296086922288,
+      "tokens": 422
+    },
+    {
+      "_id": "5ae1f2f3554299234fd0435a",
+      "latency_ms": 1328.4019902348518,
+      "retrieval_ms": 55.529989302158356,
+      "generation_ms": 1261.098200455308,
+      "tokens": 412
+    },
+    {
+      "_id": "5ab42f3c55429942dd415ebc",
+      "latency_ms": 1326.1892134323716,
+      "retrieval_ms": 44.86766457557678,
+      "generation_ms": 1269.3422557786107,
+      "tokens": 405
+    },
+    {
+      "_id": "5ab726415542993667793f52",
+      "latency_ms": 1313.5578073561192,
+      "retrieval_ms": 28.823306784033775,
+      "generation_ms": 1273.11104349792,
+      "tokens": 409
+    },
+    {
+      "_id": "5a77767a55429967ab10519b",
+      "latency_ms": 1321.7152263969183,
+      "retrieval_ms": 43.83678920567036,
+      "generation_ms": 1266.531189903617,
+      "tokens": 398
+    },
+    {
+      "_id": "5a89f90a5542992e4fca84be",
+      "latency_ms": 1345.1682161539793,
+      "retrieval_ms": 29.03092559427023,
+      "generation_ms": 1303.8743194192648,
+      "tokens": 441
+    },
+    {
+      "_id": "5ab48a7c5542991751b4d7ab",
+      "latency_ms": 1321.1871813982725,
+      "retrieval_ms": 46.56356293708086,
+      "generation_ms": 1263.1453108042479,
+      "tokens": 385
+    },
+    {
+      "_id": "5a7e02b75542997cc2c474f3",
+      "latency_ms": 1328.07626016438,
+      "retrieval_ms": 41.42352566123009,
+      "generation_ms": 1266.4875779300928,
+      "tokens": 383
+    },
+    {
+      "_id": "5a773e3955429972597f14c9",
+      "latency_ms": 1389.792020432651,
+      "retrieval_ms": 45.9031080827117,
+      "generation_ms": 1331.8593744188547,
+      "tokens": 452
+    },
+    {
+      "_id": "5ae0036a55429942ec259bdf",
+      "latency_ms": 1333.7571360170841,
+      "retrieval_ms": 54.801005870103836,
+      "generation_ms": 1266.9691927731037,
+      "tokens": 415
+    },
+    {
+      "_id": "5a8bd4d65542997f31a41dd8",
+      "latency_ms": 1318.641820922494,
+      "retrieval_ms": 52.406059578061104,
+      "generation_ms": 1254.6356283128262,
+      "tokens": 411
+    },
+    {
+      "_id": "5ab87fa255429934fafe6e00",
+      "latency_ms": 1321.0422890260816,
+      "retrieval_ms": 43.111033737659454,
+      "generation_ms": 1266.8634625151753,
+      "tokens": 343
+    },
+    {
+      "_id": "5abeab375542990832d3a091",
+      "latency_ms": 1331.3311813399196,
+      "retrieval_ms": 53.3933462575078,
+      "generation_ms": 1277.8985584154725,
+      "tokens": 514
+    },
+    {
+      "_id": "5a793f505542994bb9456fd1",
+      "latency_ms": 1327.376683242619,
+      "retrieval_ms": 35.734797827899456,
+      "generation_ms": 1279.9785109236836,
+      "tokens": 419
+    },
+    {
+      "_id": "5a7d1d825542995ed0d165f5",
+      "latency_ms": 1324.1890342906117,
+      "retrieval_ms": 54.9990301951766,
+      "generation_ms": 1269.1591503098607,
+      "tokens": 347
+    },
+    {
+      "_id": "5ae5be86554299546bf82f40",
+      "latency_ms": 1313.7184046208858,
+      "retrieval_ms": 28.153182938694954,
+      "generation_ms": 1274.2658341303468,
+      "tokens": 425
+    },
+    {
+      "_id": "5a8208ee5542990a1d231f1e",
+      "latency_ms": 1371.758840046823,
+      "retrieval_ms": 56.53355177491903,
+      "generation_ms": 1295.225938782096,
+      "tokens": 399
+    },
+    {
+      "_id": "5ab73b2e5542993667793f9b",
+      "latency_ms": 1365.0812730193138,
+      "retrieval_ms": 59.98319014906883,
+      "generation_ms": 1293.764153495431,
+      "tokens": 427
+    },
+    {
+      "_id": "5adc8d4f554299473435373d",
+      "latency_ms": 1311.7653029039502,
+      "retrieval_ms": 21.290837787091732,
+      "generation_ms": 1278.9557073265314,
+      "tokens": 360
+    },
+    {
+      "_id": "5abac27855429966062415ff",
+      "latency_ms": 1300.8647440001369,
+      "retrieval_ms": 30.09421844035387,
+      "generation_ms": 1259.7367856651545,
+      "tokens": 339
+    },
+    {
+      "_id": "5ae4869755429970de88d99a",
+      "latency_ms": 1321.1188996210694,
+      "retrieval_ms": 43.57939958572388,
+      "generation_ms": 1258.6291441693902,
+      "tokens": 348
+    },
+    {
+      "_id": "5ae202f2554299234fd0438d",
+      "latency_ms": 1322.199116460979,
+      "retrieval_ms": 36.97736095637083,
+      "generation_ms": 1265.810145996511,
+      "tokens": 403
+    },
+    {
+      "_id": "5a84c6df5542997b5ce3ff61",
+      "latency_ms": 1321.3973818346858,
+      "retrieval_ms": 41.67234990745783,
+      "generation_ms": 1268.2855520397425,
+      "tokens": 316
+    },
+    {
+      "_id": "5ac292175542996366519a14",
+      "latency_ms": 1339.559136889875,
+      "retrieval_ms": 36.103432066738605,
+      "generation_ms": 1291.1999970674515,
+      "tokens": 353
+    },
+    {
+      "_id": "5a77a4fd5542997042120abc",
+      "latency_ms": 1354.6039909124374,
+      "retrieval_ms": 46.56690917909145,
+      "generation_ms": 1287.0227601379156,
+      "tokens": 469
+    },
+    {
+      "_id": "5a85fb5e5542994775f606df",
+      "latency_ms": 1316.4441687986255,
+      "retrieval_ms": 35.61298828572035,
+      "generation_ms": 1269.3418385460973,
+      "tokens": 457
+    },
+    {
+      "_id": "5a908aaa55429933b8a20545",
+      "latency_ms": 1341.9501082971692,
+      "retrieval_ms": 37.26987261325121,
+      "generation_ms": 1292.863903567195,
+      "tokens": 439
+    },
+    {
+      "_id": "5ae74fb95542991e8301cc57",
+      "latency_ms": 1311.8946217000484,
+      "retrieval_ms": 25.610015727579594,
+      "generation_ms": 1274.9296184629202,
+      "tokens": 387
+    },
+    {
+      "_id": "5ae7b271554299540e5a564d",
+      "latency_ms": 1327.0471058785915,
+      "retrieval_ms": 41.02013260126114,
+      "generation_ms": 1274.1579450666904,
+      "tokens": 473
+    },
+    {
+      "_id": "5ab514dc5542990594ba9cfa",
+      "latency_ms": 1336.1950358375907,
+      "retrieval_ms": 35.882944241166115,
+      "generation_ms": 1284.0835908427835,
+      "tokens": 460
+    },
+    {
+      "_id": "5abb93275542993f40c73b3c",
+      "latency_ms": 1307.4759738519788,
+      "retrieval_ms": 39.7240724414587,
+      "generation_ms": 1256.151119247079,
+      "tokens": 373
+    },
+    {
+      "_id": "5ac02835554299294b218f2e",
+      "latency_ms": 1349.161627702415,
+      "retrieval_ms": 45.831067487597466,
+      "generation_ms": 1291.8349960818887,
+      "tokens": 355
+    },
+    {
+      "_id": "5ae5df84554299546bf82fa8",
+      "latency_ms": 1317.3651713877916,
+      "retrieval_ms": 38.081903010606766,
+      "generation_ms": 1267.83711835742,
+      "tokens": 453
+    },
+    {
+      "_id": "5ae7db435542993210983f9a",
+      "latency_ms": 1325.0126037746668,
+      "retrieval_ms": 43.831150978803635,
+      "generation_ms": 1261.395886540413,
+      "tokens": 458
+    },
+    {
+      "_id": "5a7c827e55429907fabeefa7",
+      "latency_ms": 1338.7638190761209,
+      "retrieval_ms": 39.251006208360195,
+      "generation_ms": 1287.783938460052,
+      "tokens": 537
+    },
+    {
+      "_id": "5a7d2c8d5542995ed0d16624",
+      "latency_ms": 1321.665775962174,
+      "retrieval_ms": 27.75721438229084,
+      "generation_ms": 1282.220677472651,
+      "tokens": 495
+    },
+    {
+      "_id": "5ac017945542997d642959bc",
+      "latency_ms": 1352.1233778446913,
+      "retrieval_ms": 49.28677622228861,
+      "generation_ms": 1291.296531446278,
+      "tokens": 512
+    },
+    {
+      "_id": "5a739d8755429978a71e9048",
+      "latency_ms": 1403.2048527151346,
+      "retrieval_ms": 58.88544674962759,
+      "generation_ms": 1332.7570799738169,
+      "tokens": 373
+    },
+    {
+      "_id": "5ac300905542996773102682",
+      "latency_ms": 1320.0453305616975,
+      "retrieval_ms": 44.72263157367706,
+      "generation_ms": 1264.3330823630095,
+      "tokens": 316
+    },
+    {
+      "_id": "5a713b325542994082a3e6b5",
+      "latency_ms": 1336.0539125278592,
+      "retrieval_ms": 42.523786425590515,
+      "generation_ms": 1281.3508547842503,
+      "tokens": 511
+    },
+    {
+      "_id": "5a808c215542995d8a8ddf90",
+      "latency_ms": 1317.5348285585642,
+      "retrieval_ms": 43.43263525515795,
+      "generation_ms": 1262.520712800324,
+      "tokens": 370
+    },
+    {
+      "_id": "5a81028b55429938b614228a",
+      "latency_ms": 1370.2994622290134,
+      "retrieval_ms": 44.50962319970131,
+      "generation_ms": 1314.303109422326,
+      "tokens": 366
+    },
+    {
+      "_id": "5a860642554299211dda2a3e",
+      "latency_ms": 1316.2624826654792,
+      "retrieval_ms": 44.452994130551815,
+      "generation_ms": 1260.0557263940573,
+      "tokens": 365
+    },
+    {
+      "_id": "5a90362f55429933b8a2049d",
+      "latency_ms": 1346.5536246076226,
+      "retrieval_ms": 39.28717505186796,
+      "generation_ms": 1285.0627787411213,
+      "tokens": 522
+    },
+    {
+      "_id": "5a829a7055429966c78a6a66",
+      "latency_ms": 1307.730259373784,
+      "retrieval_ms": 35.97595915198326,
+      "generation_ms": 1260.1805366575718,
+      "tokens": 443
+    },
+    {
+      "_id": "5a7fd7a25542992e7d278dc3",
+      "latency_ms": 1361.4343060180545,
+      "retrieval_ms": 38.503823801875114,
+      "generation_ms": 1309.8406177014112,
+      "tokens": 420
+    },
+    {
+      "_id": "5a716f575542994082a3e82f",
+      "latency_ms": 1306.0848247259855,
+      "retrieval_ms": 40.58970417827368,
+      "generation_ms": 1254.3338565155864,
+      "tokens": 348
+    },
+    {
+      "_id": "5a8ec6fd55429917b4a5bdc1",
+      "latency_ms": 1326.3028245419264,
+      "retrieval_ms": 55.38766272366047,
+      "generation_ms": 1259.320581331849,
+      "tokens": 380
+    },
+    {
+      "_id": "5a7f7ca25542994857a76747",
+      "latency_ms": 1326.3241993263364,
+      "retrieval_ms": 44.2060437053442,
+      "generation_ms": 1270.390460267663,
+      "tokens": 417
+    },
+    {
+      "_id": "5ab5c263554299488d4d9a18",
+      "latency_ms": 1300.723665393889,
+      "retrieval_ms": 20.32829262316227,
+      "generation_ms": 1268.6890484765172,
+      "tokens": 468
+    },
+    {
+      "_id": "5ac19ff35542991316484b61",
+      "latency_ms": 1320.229034870863,
+      "retrieval_ms": 57.425033301115036,
+      "generation_ms": 1251.3427818194032,
+      "tokens": 401
+    },
+    {
+      "_id": "5a7570a65542996c70cfaefd",
+      "latency_ms": 1349.9305974692106,
+      "retrieval_ms": 72.01564498245716,
+      "generation_ms": 1266.2762654945254,
+      "tokens": 381
+    },
+    {
+      "_id": "5a8a57fe55429930ff3c0da0",
+      "latency_ms": 1288.6276096105576,
+      "retrieval_ms": 26.87154244631529,
+      "generation_ms": 1261.713939718902,
+      "tokens": 311
+    },
+    {
+      "_id": "5ac3ade05542995ef918c1e3",
+      "latency_ms": 1296.947984956205,
+      "retrieval_ms": 27.12898887693882,
+      "generation_ms": 1258.6586838588119,
+      "tokens": 340
+    },
+    {
+      "_id": "5a7f2d3e5542993067513675",
+      "latency_ms": 1354.4387239962816,
+      "retrieval_ms": 45.559938065707684,
+      "generation_ms": 1296.766840852797,
+      "tokens": 420
+    },
+    {
+      "_id": "5a7723ce55429966f1a36c9f",
+      "latency_ms": 1310.3091921657324,
+      "retrieval_ms": 55.89352361857891,
+      "generation_ms": 1254.3599270284176,
+      "tokens": 367
+    },
+    {
+      "_id": "5ab21c3b554299722f9b4cb4",
+      "latency_ms": 1315.6762970611453,
+      "retrieval_ms": 54.091524332761765,
+      "generation_ms": 1249.8410753905773,
+      "tokens": 359
+    },
+    {
+      "_id": "5ab492155542991779162ce3",
+      "latency_ms": 1348.8905802369118,
+      "retrieval_ms": 48.09798486530781,
+      "generation_ms": 1289.4847160205245,
+      "tokens": 372
+    },
+    {
+      "_id": "5a7568805542992db9473658",
+      "latency_ms": 1317.0944899320602,
+      "retrieval_ms": 39.53081276267767,
+      "generation_ms": 1266.0485357046127,
+      "tokens": 349
+    },
+    {
+      "_id": "5ae67fba5542996d980e7b9a",
+      "latency_ms": 1329.845274798572,
+      "retrieval_ms": 63.966632820665836,
+      "generation_ms": 1254.7756414860487,
+      "tokens": 364
+    },
+    {
+      "_id": "5adc905e5542994d58a2f662",
+      "latency_ms": 1299.1526126861572,
+      "retrieval_ms": 24.484017863869667,
+      "generation_ms": 1263.1245078518987,
+      "tokens": 377
+    },
+    {
+      "_id": "5abe49765542991f6610611f",
+      "latency_ms": 1306.5670654177666,
+      "retrieval_ms": 42.304662987589836,
+      "generation_ms": 1252.9638055711985,
+      "tokens": 357
+    },
+    {
+      "_id": "5ab8494d55429916710eb016",
+      "latency_ms": 1330.2407385781407,
+      "retrieval_ms": 56.11599329859018,
+      "generation_ms": 1262.6252565532923,
+      "tokens": 394
+    },
+    {
+      "_id": "5a74872655429979e2882978",
+      "latency_ms": 1320.8250142633915,
+      "retrieval_ms": 45.24691868573427,
+      "generation_ms": 1263.8293309137225,
+      "tokens": 419
+    },
+    {
+      "_id": "5a79b525554299029c4b5f67",
+      "latency_ms": 1345.400775782764,
+      "retrieval_ms": 46.5128468349576,
+      "generation_ms": 1286.283110268414,
+      "tokens": 556
+    },
+    {
+      "_id": "5ae7940c55429952e35ea984",
+      "latency_ms": 1334.9814489483833,
+      "retrieval_ms": 39.724841713905334,
+      "generation_ms": 1283.3780841901898,
+      "tokens": 427
+    },
+    {
+      "_id": "5a8712095542991e771816af",
+      "latency_ms": 1351.1109864339232,
+      "retrieval_ms": 57.56660923361778,
+      "generation_ms": 1281.733081676066,
+      "tokens": 407
+    },
+    {
+      "_id": "5ac38c0755429939154137bb",
+      "latency_ms": 1327.2615754976869,
+      "retrieval_ms": 30.88610153645277,
+      "generation_ms": 1284.9443927407265,
+      "tokens": 496
+    },
+    {
+      "_id": "5ab529005542996a3a96a045",
+      "latency_ms": 1353.3061146736145,
+      "retrieval_ms": 44.40890345722437,
+      "generation_ms": 1297.1471715718508,
+      "tokens": 565
+    },
+    {
+      "_id": "5a8787305542996e4f30882d",
+      "latency_ms": 1312.1095849201083,
+      "retrieval_ms": 37.78003994375467,
+      "generation_ms": 1263.1645696237683,
+      "tokens": 373
+    },
+    {
+      "_id": "5a894bea55429946c8d6e910",
+      "latency_ms": 1298.2472386211157,
+      "retrieval_ms": 25.486363098025322,
+      "generation_ms": 1261.0023263841867,
+      "tokens": 438
+    },
+    {
+      "_id": "5a7b1c745542992d025e6777",
+      "latency_ms": 1312.1101008728147,
+      "retrieval_ms": 44.15723402053118,
+      "generation_ms": 1256.7964484915137,
+      "tokens": 332
+    },
+    {
+      "_id": "5a79b495554299148911fa3b",
+      "latency_ms": 1320.9174117073417,
+      "retrieval_ms": 37.64677233994007,
+      "generation_ms": 1271.2773215025663,
+      "tokens": 431
+    },
+    {
+      "_id": "5aba3e3355429901930fa78c",
+      "latency_ms": 1350.7683482021093,
+      "retrieval_ms": 40.60168471187353,
+      "generation_ms": 1288.3612820878625,
+      "tokens": 417
+    },
+    {
+      "_id": "5a8307c055429966c78a6af9",
+      "latency_ms": 1349.6594103053212,
+      "retrieval_ms": 58.96293930709362,
+      "generation_ms": 1279.2879799380898,
+      "tokens": 411
+    },
+    {
+      "_id": "5abbb116554299642a094b1d",
+      "latency_ms": 1351.5229765325785,
+      "retrieval_ms": 38.72912749648094,
+      "generation_ms": 1300.445295870304,
+      "tokens": 528
+    },
+    {
+      "_id": "5aba52e655429939ce03dc94",
+      "latency_ms": 1319.7301048785448,
+      "retrieval_ms": 39.689996279776096,
+      "generation_ms": 1268.222264945507,
+      "tokens": 520
+    },
+    {
+      "_id": "5a7a3edd5542990783324ed9",
+      "latency_ms": 1302.0861223340034,
+      "retrieval_ms": 25.97906719893217,
+      "generation_ms": 1264.7559037432075,
+      "tokens": 366
+    },
+    {
+      "_id": "5a870a8e55429960ec39b707",
+      "latency_ms": 1313.6508064344525,
+      "retrieval_ms": 44.36048585921526,
+      "generation_ms": 1258.4383515641093,
+      "tokens": 335
+    },
+    {
+      "_id": "5ab736a65542992aa3b8c7db",
+      "latency_ms": 1347.1564017236233,
+      "retrieval_ms": 56.718114763498306,
+      "generation_ms": 1278.6819906905293,
+      "tokens": 365
+    },
+    {
+      "_id": "5ae3ff2d5542995dadf242a9",
+      "latency_ms": 1329.959507100284,
+      "retrieval_ms": 45.48581223934889,
+      "generation_ms": 1272.4873153492808,
+      "tokens": 408
+    },
+    {
+      "_id": "5ae5415055429908b63265b7",
+      "latency_ms": 1316.8610781431198,
+      "retrieval_ms": 42.145886458456516,
+      "generation_ms": 1262.9912821576,
+      "tokens": 399
+    },
+    {
+      "_id": "5ac413ca5542997ea680c9e9",
+      "latency_ms": 1335.1573906838894,
+      "retrieval_ms": 53.96404303610325,
+      "generation_ms": 1269.5114258676767,
+      "tokens": 393
+    },
+    {
+      "_id": "5a7322165542994cef4bc470",
+      "latency_ms": 1339.3917987123132,
+      "retrieval_ms": 46.41545284539461,
+      "generation_ms": 1280.8108646422625,
+      "tokens": 480
+    },
+    {
+      "_id": "5a828a7b55429954d2e2eb69",
+      "latency_ms": 1305.3161418065429,
+      "retrieval_ms": 26.625744998455048,
+      "generation_ms": 1278.6512915045023,
+      "tokens": 424
+    },
+    {
+      "_id": "5ab2421555429970612095cc",
+      "latency_ms": 1312.196691520512,
+      "retrieval_ms": 46.61923740059137,
+      "generation_ms": 1253.5336390137672,
+      "tokens": 384
+    },
+    {
+      "_id": "5ab28a87554299449642c8ec",
+      "latency_ms": 1384.7605492919683,
+      "retrieval_ms": 56.40177242457867,
+      "generation_ms": 1317.3118866980076,
+      "tokens": 297
+    },
+    {
+      "_id": "5a85f5115542991dd0999ed9",
+      "latency_ms": 1332.673130556941,
+      "retrieval_ms": 55.95977511256933,
+      "generation_ms": 1265.1897743344307,
+      "tokens": 399
+    },
+    {
+      "_id": "5a73677455429901807db030",
+      "latency_ms": 1330.447788350284,
+      "retrieval_ms": 44.807907193899155,
+      "generation_ms": 1274.1581872105598,
+      "tokens": 464
+    },
+    {
+      "_id": "5a7380e055429908901be2d6",
+      "latency_ms": 1307.0042245090008,
+      "retrieval_ms": 43.27488970011473,
+      "generation_ms": 1252.2792592644691,
+      "tokens": 365
+    },
+    {
+      "_id": "5a7a10755542996a35c170b1",
+      "latency_ms": 1345.405550673604,
+      "retrieval_ms": 61.18704751133919,
+      "generation_ms": 1272.7647377178073,
+      "tokens": 371
+    },
+    {
+      "_id": "5abce85755429959677d6b3e",
+      "latency_ms": 1333.0299369990826,
+      "retrieval_ms": 53.396294824779034,
+      "generation_ms": 1268.1079432368279,
+      "tokens": 459
+    },
+    {
+      "_id": "5a807ceb554299485f598616",
+      "latency_ms": 1327.6658961549401,
+      "retrieval_ms": 43.561968952417374,
+      "generation_ms": 1272.8515109047294,
+      "tokens": 372
+    },
+    {
+      "_id": "5a77137455429972597f142a",
+      "latency_ms": 1321.745153516531,
+      "retrieval_ms": 20.19141335040331,
+      "generation_ms": 1288.4183814749122,
+      "tokens": 454
+    },
+    {
+      "_id": "5ae3368b5542991a06ce995b",
+      "latency_ms": 1350.2621073275805,
+      "retrieval_ms": 26.88586339354515,
+      "generation_ms": 1309.8150100558996,
+      "tokens": 359
+    },
+    {
+      "_id": "5a84b6ed5542994c784dda18",
+      "latency_ms": 1337.088929489255,
+      "retrieval_ms": 45.75812816619873,
+      "generation_ms": 1279.5983450487256,
+      "tokens": 419
+    },
+    {
+      "_id": "5adccdab5542994d58a2f6db",
+      "latency_ms": 1335.5523608624935,
+      "retrieval_ms": 58.35760198533535,
+      "generation_ms": 1265.5211575329304,
+      "tokens": 390
+    },
+    {
+      "_id": "5a8ac4dd5542992d82986f76",
+      "latency_ms": 1330.4155096411705,
+      "retrieval_ms": 44.75492238998413,
+      "generation_ms": 1273.499883711338,
+      "tokens": 460
+    },
+    {
+      "_id": "5a79d8ec5542996c55b2dc7e",
+      "latency_ms": 1290.4626270756125,
+      "retrieval_ms": 26.675064116716385,
+      "generation_ms": 1252.930042333901,
+      "tokens": 293
+    },
+    {
+      "_id": "5ab2f88755429976abd1bbe0",
+      "latency_ms": 1312.1046125888824,
+      "retrieval_ms": 36.876147612929344,
+      "generation_ms": 1263.946309685707,
+      "tokens": 400
+    },
+    {
+      "_id": "5ae610e55542995703ce8ae1",
+      "latency_ms": 1355.2661649882793,
+      "retrieval_ms": 48.331196419894695,
+      "generation_ms": 1294.9428213760257,
+      "tokens": 445
+    },
+    {
+      "_id": "5abbfbcf55429965836003cf",
+      "latency_ms": 1318.7420228496194,
+      "retrieval_ms": 55.88327907025814,
+      "generation_ms": 1251.5896139666438,
+      "tokens": 349
+    },
+    {
+      "_id": "5a736f7c5542991f29ee2e18",
+      "latency_ms": 1343.8031477853656,
+      "retrieval_ms": 55.78914470970631,
+      "generation_ms": 1274.933927692473,
+      "tokens": 461
+    },
+    {
+      "_id": "5a727ca45542994cef4bc2d8",
+      "latency_ms": 1324.9100102111697,
+      "retrieval_ms": 45.99674977362156,
+      "generation_ms": 1266.8714160099626,
+      "tokens": 431
+    },
+    {
+      "_id": "5a7587705542992db9473674",
+      "latency_ms": 1357.2658188641071,
+      "retrieval_ms": 46.64320312440395,
+      "generation_ms": 1299.4630988687277,
+      "tokens": 373
+    },
+    {
+      "_id": "5ab915ad55429919ba4e239c",
+      "latency_ms": 1347.1528384834528,
+      "retrieval_ms": 40.00139608979225,
+      "generation_ms": 1294.5781191810966,
+      "tokens": 488
+    },
+    {
+      "_id": "5a9080275542995651fb5175",
+      "latency_ms": 1332.503660582006,
+      "retrieval_ms": 61.29611097276211,
+      "generation_ms": 1260.2722942829132,
+      "tokens": 372
+    },
+    {
+      "_id": "5a778b345542992a6e59decf",
+      "latency_ms": 1325.1387942582369,
+      "retrieval_ms": 43.964688666164875,
+      "generation_ms": 1268.727502785623,
+      "tokens": 369
+    },
+    {
+      "_id": "5ac3b9c5554299657fa2911b",
+      "latency_ms": 1321.666738949716,
+      "retrieval_ms": 46.07973340898752,
+      "generation_ms": 1263.8431368395686,
+      "tokens": 408
+    },
+    {
+      "_id": "5ab2d3c5554299295394687a",
+      "latency_ms": 1303.8420705124736,
+      "retrieval_ms": 23.225516080856323,
+      "generation_ms": 1268.993859179318,
+      "tokens": 465
+    },
+    {
+      "_id": "5a81a2705542990a1d231e30",
+      "latency_ms": 1316.7636999860406,
+      "retrieval_ms": 43.783094733953476,
+      "generation_ms": 1261.3932946696877,
+      "tokens": 375
+    },
+    {
+      "_id": "5a7dbc175542995ed0d1666b",
+      "latency_ms": 1304.3532390147448,
+      "retrieval_ms": 20.2367901802063,
+      "generation_ms": 1272.168687544763,
+      "tokens": 462
+    },
+    {
+      "_id": "5a84a5dc5542992a431d1a82",
+      "latency_ms": 1321.311330422759,
+      "retrieval_ms": 43.57396438717842,
+      "generation_ms": 1265.9624256193638,
+      "tokens": 419
+    },
+    {
+      "_id": "5ab3357d554299166977419d",
+      "latency_ms": 1378.0475305393338,
+      "retrieval_ms": 46.662963926792145,
+      "generation_ms": 1310.4647807776928,
+      "tokens": 427
+    },
+    {
+      "_id": "5abd4c6d5542993062266c47",
+      "latency_ms": 1326.657040975988,
+      "retrieval_ms": 49.209107644855976,
+      "generation_ms": 1266.0754788666964,
+      "tokens": 415
+    },
+    {
+      "_id": "5ae1af14554299234fd042c4",
+      "latency_ms": 1328.5321239382029,
+      "retrieval_ms": 41.88409633934498,
+      "generation_ms": 1274.162346497178,
+      "tokens": 407
+    },
+    {
+      "_id": "5a88f7855542993b751ca8da",
+      "latency_ms": 1339.0137609094381,
+      "retrieval_ms": 57.86371789872646,
+      "generation_ms": 1269.1167974844575,
+      "tokens": 363
+    },
+    {
+      "_id": "5adf0e7c5542992d7e9f9297",
+      "latency_ms": 1343.6592547222972,
+      "retrieval_ms": 58.716606348752975,
+      "generation_ms": 1272.2370764240623,
+      "tokens": 491
+    },
+    {
+      "_id": "5a77d2d25542992a6e59dfe2",
+      "latency_ms": 1373.4700456261635,
+      "retrieval_ms": 61.09584402292967,
+      "generation_ms": 1300.0841792672873,
+      "tokens": 387
+    },
+    {
+      "_id": "5a7c90125542990527d554d1",
+      "latency_ms": 1374.7826153412461,
+      "retrieval_ms": 49.858453683555126,
+      "generation_ms": 1305.2453976124525,
+      "tokens": 415
+    },
+    {
+      "_id": "5adefcf15542995ec70e8f4c",
+      "latency_ms": 1321.1245480924845,
+      "retrieval_ms": 48.50196372717619,
+      "generation_ms": 1260.314604267478,
+      "tokens": 341
+    },
+    {
+      "_id": "5a73f4f75542993a88ae2ebc",
+      "latency_ms": 1335.026596672833,
+      "retrieval_ms": 41.16709716618061,
+      "generation_ms": 1281.706552952528,
+      "tokens": 376
+    },
+    {
+      "_id": "5ae1e8ab5542997283cd22ca",
+      "latency_ms": 1320.3443018719554,
+      "retrieval_ms": 55.42927514761686,
+      "generation_ms": 1253.0410271137953,
+      "tokens": 376
+    },
+    {
+      "_id": "5ae1408a55429901ffe4ae2a",
+      "latency_ms": 1335.5875983834267,
+      "retrieval_ms": 56.21152278035879,
+      "generation_ms": 1267.8288836032152,
+      "tokens": 318
+    },
+    {
+      "_id": "5a7b23d355429931da12c9f1",
+      "latency_ms": 1316.983301192522,
+      "retrieval_ms": 27.265910990536213,
+      "generation_ms": 1277.7033848688006,
+      "tokens": 475
+    },
+    {
+      "_id": "5a81adfc55429903bc27b9a4",
+      "latency_ms": 1321.0970992222428,
+      "retrieval_ms": 20.316489972174168,
+      "generation_ms": 1288.9425968751311,
+      "tokens": 472
+    },
+    {
+      "_id": "5a7716ee55429937353601cc",
+      "latency_ms": 1337.9619363695383,
+      "retrieval_ms": 48.81063010543585,
+      "generation_ms": 1277.1809482946992,
+      "tokens": 423
+    },
+    {
+      "_id": "5a8fa20555429918e830d298",
+      "latency_ms": 1339.5412797108293,
+      "retrieval_ms": 49.161024391651154,
+      "generation_ms": 1278.7730833515525,
+      "tokens": 435
+    },
+    {
+      "_id": "5ae095f055429924de1b7103",
+      "latency_ms": 1309.7998229786754,
+      "retrieval_ms": 22.53416460007429,
+      "generation_ms": 1275.32665617764,
+      "tokens": 398
+    },
+    {
+      "_id": "5ab72a035542993667793f5c",
+      "latency_ms": 1321.1106518283486,
+      "retrieval_ms": 45.34706100821495,
+      "generation_ms": 1264.0522299334407,
+      "tokens": 416
+    },
+    {
+      "_id": "5a8a09ff5542992d82986e6b",
+      "latency_ms": 1334.4427095726132,
+      "retrieval_ms": 44.65817287564278,
+      "generation_ms": 1278.3268950879574,
+      "tokens": 392
+    },
+    {
+      "_id": "5ab822ef55429916710eafff",
+      "latency_ms": 1349.6170742437243,
+      "retrieval_ms": 58.137317188084126,
+      "generation_ms": 1279.7867255285382,
+      "tokens": 460
+    },
+    {
+      "_id": "5abd724b55429924427fcfd9",
+      "latency_ms": 1375.8056974038482,
+      "retrieval_ms": 36.60968970507383,
+      "generation_ms": 1327.1881639957428,
+      "tokens": 413
+    },
+    {
+      "_id": "5a8b7d7d5542997f31a41d4b",
+      "latency_ms": 1351.1370727792382,
+      "retrieval_ms": 27.993752621114254,
+      "generation_ms": 1311.290997080505,
+      "tokens": 388
+    },
+    {
+      "_id": "5ae4be5c5542995ad6573e3a",
+      "latency_ms": 1340.6543768942356,
+      "retrieval_ms": 24.804485961794853,
+      "generation_ms": 1304.3846003711224,
+      "tokens": 338
+    },
+    {
+      "_id": "5add3acb5542990dbb2f7ddc",
+      "latency_ms": 1315.0041084736586,
+      "retrieval_ms": 39.576844312250614,
+      "generation_ms": 1263.3511442691088,
+      "tokens": 368
+    },
+    {
+      "_id": "5abb23655542992ccd8e7f25",
+      "latency_ms": 1343.305705115199,
+      "retrieval_ms": 44.08472403883934,
+      "generation_ms": 1287.5896217301488,
+      "tokens": 383
+    },
+    {
+      "_id": "5ae4a0ca5542995ad6573dcb",
+      "latency_ms": 1330.2018037065864,
+      "retrieval_ms": 40.78974295407534,
+      "generation_ms": 1277.4733724072576,
+      "tokens": 443
+    },
+    {
+      "_id": "5ae535bc55429960a22e0260",
+      "latency_ms": 1376.7662979662418,
+      "retrieval_ms": 39.16961792856455,
+      "generation_ms": 1324.6209919452667,
+      "tokens": 532
+    },
+    {
+      "_id": "5a8d9573554299068b959d51",
+      "latency_ms": 1381.0189440846443,
+      "retrieval_ms": 48.326341435313225,
+      "generation_ms": 1320.676133967936,
+      "tokens": 501
+    },
+    {
+      "_id": "5ade279e5542992fa25da6fa",
+      "latency_ms": 1332.9019052907825,
+      "retrieval_ms": 26.061800308525562,
+      "generation_ms": 1294.405779801309,
+      "tokens": 414
+    },
+    {
+      "_id": "5a7f19eb55429934daa2fcdb",
+      "latency_ms": 1332.1401122957468,
+      "retrieval_ms": 27.601667679846287,
+      "generation_ms": 1292.7651358768344,
+      "tokens": 443
+    },
+    {
+      "_id": "5ade3af855429939a52fe867",
+      "latency_ms": 1358.1564407795668,
+      "retrieval_ms": 56.315952911973,
+      "generation_ms": 1281.4737521111965,
+      "tokens": 444
+    },
+    {
+      "_id": "5adfecd755429942ec259b90",
+      "latency_ms": 1322.7462330833077,
+      "retrieval_ms": 55.05891889333725,
+      "generation_ms": 1256.334169767797,
+      "tokens": 325
+    },
+    {
+      "_id": "5a7fc5875542992e7d278d67",
+      "latency_ms": 1327.707371674478,
+      "retrieval_ms": 38.24019804596901,
+      "generation_ms": 1277.1243397146463,
+      "tokens": 470
+    },
+    {
+      "_id": "5ab428915542991751b4d6b2",
+      "latency_ms": 1321.863828226924,
+      "retrieval_ms": 37.97412570565939,
+      "generation_ms": 1271.9862386584282,
+      "tokens": 443
+    },
+    {
+      "_id": "5ae71f06554299572ea54708",
+      "latency_ms": 1315.3525311499834,
+      "retrieval_ms": 27.918399311602116,
+      "generation_ms": 1274.936942383647,
+      "tokens": 465
+    },
+    {
+      "_id": "5ae12aa6554299422ee99617",
+      "latency_ms": 1332.277157343924,
+      "retrieval_ms": 60.49088574945927,
+      "generation_ms": 1260.3838657960296,
+      "tokens": 372
+    },
+    {
+      "_id": "5a89a82c5542993b751ca973",
+      "latency_ms": 1316.7061163112521,
+      "retrieval_ms": 41.4069602265954,
+      "generation_ms": 1263.7499198317528,
+      "tokens": 322
+    },
+    {
+      "_id": "5a829c1d55429966c78a6a67",
+      "latency_ms": 1296.3482541963458,
+      "retrieval_ms": 28.887229971587658,
+      "generation_ms": 1267.4206960946321,
+      "tokens": 404
+    },
+    {
+      "_id": "5a7125165542994082a3e5d0",
+      "latency_ms": 1333.2906709983945,
+      "retrieval_ms": 35.01876909285784,
+      "generation_ms": 1286.307324655354,
+      "tokens": 455
+    },
+    {
+      "_id": "5a79ecd05542996c55b2dca1",
+      "latency_ms": 1314.727853052318,
+      "retrieval_ms": 29.396244324743748,
+      "generation_ms": 1273.3289543539286,
+      "tokens": 419
+    },
+    {
+      "_id": "5a8edb5c55429917b4a5bde9",
+      "latency_ms": 1321.0545182228088,
+      "retrieval_ms": 45.61025742441416,
+      "generation_ms": 1263.4548116475344,
+      "tokens": 437
+    },
+    {
+      "_id": "5ac0cfb45542997d64295a58",
+      "latency_ms": 1340.8583272248507,
+      "retrieval_ms": 44.49821915477514,
+      "generation_ms": 1275.7013123482466,
+      "tokens": 533
+    },
+    {
+      "_id": "5abcffc2554299700f9d7951",
+      "latency_ms": 1322.7971475571394,
+      "retrieval_ms": 54.189582355320454,
+      "generation_ms": 1256.9296257570386,
+      "tokens": 378
+    },
+    {
+      "_id": "5ae634355542995703ce8b41",
+      "latency_ms": 1305.2166840061545,
+      "retrieval_ms": 26.49272233247757,
+      "generation_ms": 1266.4544032886624,
+      "tokens": 485
+    },
+    {
+      "_id": "5a832ad55542990548d0b1b5",
+      "latency_ms": 1323.2750780880451,
+      "retrieval_ms": 43.04565768688917,
+      "generation_ms": 1269.1677082329988,
+      "tokens": 337
+    },
+    {
+      "_id": "5a903b7f55429933b8a204af",
+      "latency_ms": 1340.214123018086,
+      "retrieval_ms": 39.185529574751854,
+      "generation_ms": 1288.5939227417111,
+      "tokens": 559
+    },
+    {
+      "_id": "5a74b66a55429929fddd84cb",
+      "latency_ms": 1316.5683494880795,
+      "retrieval_ms": 20.256657153367996,
+      "generation_ms": 1284.1457109898329,
+      "tokens": 460
+    },
+    {
+      "_id": "5ac3aa3655429939154138a2",
+      "latency_ms": 1337.669039145112,
+      "retrieval_ms": 21.992255933582783,
+      "generation_ms": 1303.98877710104,
+      "tokens": 450
+    },
+    {
+      "_id": "5a7471f655429979e2882955",
+      "latency_ms": 1300.8681777864695,
+      "retrieval_ms": 40.31158238649368,
+      "generation_ms": 1260.5159459635615,
+      "tokens": 342
+    },
+    {
+      "_id": "5ae628fd5542995703ce8b33",
+      "latency_ms": 1313.7732166796923,
+      "retrieval_ms": 45.971060171723366,
+      "generation_ms": 1256.6208690404892,
+      "tokens": 348
+    },
+    {
+      "_id": "5ab2a1f35542997061209677",
+      "latency_ms": 1318.515693768859,
+      "retrieval_ms": 39.532060734927654,
+      "generation_ms": 1266.8435219675303,
+      "tokens": 521
+    },
+    {
+      "_id": "5a84edf65542994c784dda8d",
+      "latency_ms": 1351.2890730053186,
+      "retrieval_ms": 54.54304255545139,
+      "generation_ms": 1276.5737380832434,
+      "tokens": 399
+    },
+    {
+      "_id": "5a7ae2f2554299042af8f6aa",
+      "latency_ms": 1332.6143706217408,
+      "retrieval_ms": 44.52695697546005,
+      "generation_ms": 1268.5418548062444,
+      "tokens": 439
+    },
+    {
+      "_id": "5adbcc085542996e6852523c",
+      "latency_ms": 1330.4988136515021,
+      "retrieval_ms": 57.202220894396305,
+      "generation_ms": 1262.1500147506595,
+      "tokens": 292
+    },
+    {
+      "_id": "5ae127c9554299422ee99612",
+      "latency_ms": 1331.7366177216172,
+      "retrieval_ms": 25.698143057525158,
+      "generation_ms": 1294.3241177126765,
+      "tokens": 434
+    },
+    {
+      "_id": "5a7c17c95542990527d5544d",
+      "latency_ms": 1357.5382167473435,
+      "retrieval_ms": 58.40934440493584,
+      "generation_ms": 1287.7327408641577,
+      "tokens": 404
+    },
+    {
+      "_id": "5ae4d2a55542990ba0bbb161",
+      "latency_ms": 1324.1903940215707,
+      "retrieval_ms": 58.616711758077145,
+      "generation_ms": 1254.3378351256251,
+      "tokens": 329
+    },
+    {
+      "_id": "5ae200655542994d89d5b2f4",
+      "latency_ms": 1333.8111098855734,
+      "retrieval_ms": 49.87473972141743,
+      "generation_ms": 1272.2975853830576,
+      "tokens": 438
+    },
+    {
+      "_id": "5a72ba1a5542992359bc318b",
+      "latency_ms": 1312.4325284734368,
+      "retrieval_ms": 31.23446274548769,
+      "generation_ms": 1269.8280531913042,
+      "tokens": 433
+    },
+    {
+      "_id": "5ae489ab5542995ad6573d62",
+      "latency_ms": 1387.322367168963,
+      "retrieval_ms": 58.199585415422916,
+      "generation_ms": 1317.3111798241735,
+      "tokens": 520
+    },
+    {
+      "_id": "5a8563c05542997b5ce3fff4",
+      "latency_ms": 1333.612671121955,
+      "retrieval_ms": 44.10528764128685,
+      "generation_ms": 1278.27612683177,
+      "tokens": 371
+    },
+    {
+      "_id": "5ae3b1ba5542992f92d82343",
+      "latency_ms": 1432.4242761358619,
+      "retrieval_ms": 74.80368856340647,
+      "generation_ms": 1345.5298393964767,
+      "tokens": 503
+    },
+    {
+      "_id": "5ab29426554299545a2cf99f",
+      "latency_ms": 1368.329362012446,
+      "retrieval_ms": 74.98565502464771,
+      "generation_ms": 1281.5510770305991,
+      "tokens": 402
+    },
+    {
+      "_id": "5a8d40715542994ba4e3dc3a",
+      "latency_ms": 1381.5354006364942,
+      "retrieval_ms": 55.19123002886772,
+      "generation_ms": 1314.7967709228396,
+      "tokens": 361
+    },
+    {
+      "_id": "5adfc35755429906c02daa30",
+      "latency_ms": 1324.2864878848195,
+      "retrieval_ms": 57.936095632612705,
+      "generation_ms": 1255.027212202549,
+      "tokens": 396
+    },
+    {
+      "_id": "5a7f7e3a5542992097ad2f89",
+      "latency_ms": 1365.4794618487358,
+      "retrieval_ms": 45.280154794454575,
+      "generation_ms": 1300.1136370003223,
+      "tokens": 507
+    },
+    {
+      "_id": "5a86ea445542994775f60780",
+      "latency_ms": 1332.8275382518768,
+      "retrieval_ms": 49.53383281826973,
+      "generation_ms": 1271.9285245984793,
+      "tokens": 356
+    },
+    {
+      "_id": "5ab56200554299494045ef88",
+      "latency_ms": 1319.6042571216822,
+      "retrieval_ms": 44.40311435610056,
+      "generation_ms": 1263.9070739969611,
+      "tokens": 402
+    },
+    {
+      "_id": "5ae0380955429925eb1afc2e",
+      "latency_ms": 1330.8330662548542,
+      "retrieval_ms": 41.991946287453175,
+      "generation_ms": 1276.861366815865,
+      "tokens": 402
+    },
+    {
+      "_id": "5ab875bd55429916710eb062",
+      "latency_ms": 1328.879659064114,
+      "retrieval_ms": 53.37585508823395,
+      "generation_ms": 1264.156924560666,
+      "tokens": 405
+    },
+    {
+      "_id": "5abfa0285542990832d3a171",
+      "latency_ms": 1359.1714855283499,
+      "retrieval_ms": 53.264821879565716,
+      "generation_ms": 1294.5897122845054,
+      "tokens": 347
+    },
+    {
+      "_id": "5a7fb23f5542994857a767be",
+      "latency_ms": 1322.995014488697,
+      "retrieval_ms": 63.09425085783005,
+      "generation_ms": 1249.1098046302795,
+      "tokens": 278
+    },
+    {
+      "_id": "5a7a34bf5542994f819ef151",
+      "latency_ms": 1332.9488392919302,
+      "retrieval_ms": 60.726167634129524,
+      "generation_ms": 1260.6024034321308,
+      "tokens": 360
+    },
+    {
+      "_id": "5a77a3905542992a6e59df40",
+      "latency_ms": 1348.2515029609203,
+      "retrieval_ms": 56.5540986135602,
+      "generation_ms": 1279.6581583097577,
+      "tokens": 412
+    },
+    {
+      "_id": "5ae3d6bd5542991a06ce9a2b",
+      "latency_ms": 1320.6418370828032,
+      "retrieval_ms": 34.512571059167385,
+      "generation_ms": 1274.9087838456035,
+      "tokens": 318
+    },
+    {
+      "_id": "5a8b98665542995d1e6f1413",
+      "latency_ms": 1332.7638125047088,
+      "retrieval_ms": 55.06420135498047,
+      "generation_ms": 1266.1654697731137,
+      "tokens": 384
+    },
+    {
+      "_id": "5a8bbddf5542997f31a41db2",
+      "latency_ms": 1329.2901953682303,
+      "retrieval_ms": 55.1754105836153,
+      "generation_ms": 1254.8456275835633,
+      "tokens": 363
+    },
+    {
+      "_id": "5a7e6df35542997cc2c47544",
+      "latency_ms": 1384.9268006160855,
+      "retrieval_ms": 60.161832720041275,
+      "generation_ms": 1310.216755606234,
+      "tokens": 325
+    },
+    {
+      "_id": "5ae2fffe55429928c423959c",
+      "latency_ms": 1338.6439448222518,
+      "retrieval_ms": 43.13495010137558,
+      "generation_ms": 1284.676861949265,
+      "tokens": 311
+    },
+    {
+      "_id": "5ae721885542996d980e7cba",
+      "latency_ms": 1342.0807691290975,
+      "retrieval_ms": 59.21776778995991,
+      "generation_ms": 1270.779674872756,
+      "tokens": 418
+    },
+    {
+      "_id": "5a77ca3955429967ab1052a3",
+      "latency_ms": 1346.2043413892388,
+      "retrieval_ms": 56.513081304728985,
+      "generation_ms": 1278.1508779153228,
+      "tokens": 387
+    },
+    {
+      "_id": "5ac0d1555542997d64295a5d",
+      "latency_ms": 1312.1952032670379,
+      "retrieval_ms": 20.810797810554504,
+      "generation_ms": 1279.612191952765,
+      "tokens": 425
+    },
+    {
+      "_id": "5ae685fd5542996d980e7bda",
+      "latency_ms": 1334.5423433929682,
+      "retrieval_ms": 46.04730103164911,
+      "generation_ms": 1275.8144792169333,
+      "tokens": 390
+    },
+    {
+      "_id": "5ae141475542997b2ef7d185",
+      "latency_ms": 1373.2162918895483,
+      "retrieval_ms": 60.708305798470974,
+      "generation_ms": 1299.9838273972273,
+      "tokens": 431
+    },
+    {
+      "_id": "5a862974554299211dda2a95",
+      "latency_ms": 1327.990334481001,
+      "retrieval_ms": 44.445847161114216,
+      "generation_ms": 1261.820058338344,
+      "tokens": 379
+    },
+    {
+      "_id": "5ab9b1fd5542996be202058e",
+      "latency_ms": 1324.867601506412,
+      "retrieval_ms": 56.54191970825195,
+      "generation_ms": 1255.8703729882836,
+      "tokens": 375
+    },
+    {
+      "_id": "5a8c78a8554299585d9e36bc",
+      "latency_ms": 1340.103441849351,
+      "retrieval_ms": 63.12797777354717,
+      "generation_ms": 1264.855363406241,
+      "tokens": 463
+    },
+    {
+      "_id": "5a77769e5542997042120a65",
+      "latency_ms": 1355.9933314099908,
+      "retrieval_ms": 58.45943093299866,
+      "generation_ms": 1285.7610136270523,
+      "tokens": 412
+    },
+    {
+      "_id": "5a78f59755429970f5fffdf8",
+      "latency_ms": 1322.4242255091667,
+      "retrieval_ms": 44.841316528618336,
+      "generation_ms": 1265.6836127862334,
+      "tokens": 428
+    },
+    {
+      "_id": "5a7bb983554299042af8f7c1",
+      "latency_ms": 1320.3394319862127,
+      "retrieval_ms": 41.99807997792959,
+      "generation_ms": 1266.5650704875588,
+      "tokens": 401
+    },
+    {
+      "_id": "5abea98d5542990832d3a07d",
+      "latency_ms": 1301.3998186215758,
+      "retrieval_ms": 26.120414957404137,
+      "generation_ms": 1262.2720953077078,
+      "tokens": 475
+    },
+    {
+      "_id": "5a86f204554299211dda2b60",
+      "latency_ms": 1333.2286840304732,
+      "retrieval_ms": 58.75848326832056,
+      "generation_ms": 1263.054622337222,
+      "tokens": 354
+    },
+    {
+      "_id": "5ac1846d55429964131be20b",
+      "latency_ms": 1312.325144186616,
+      "retrieval_ms": 37.97931782901287,
+      "generation_ms": 1263.0594475194812,
+      "tokens": 369
+    },
+    {
+      "_id": "5a8eb63455429917b4a5bdb7",
+      "latency_ms": 1354.2448673397303,
+      "retrieval_ms": 43.43483876436949,
+      "generation_ms": 1292.0221453532577,
+      "tokens": 303
+    },
+    {
+      "_id": "5a8591715542994c784ddb27",
+      "latency_ms": 1331.4764015376568,
+      "retrieval_ms": 60.399155132472515,
+      "generation_ms": 1259.3416357412934,
+      "tokens": 406
+    },
+    {
+      "_id": "5a84c6e65542994c784dda48",
+      "latency_ms": 1363.8095073401928,
+      "retrieval_ms": 58.473062701523304,
+      "generation_ms": 1293.9968556165695,
+      "tokens": 381
+    },
+    {
+      "_id": "5abdb9775542993f32c2a01b",
+      "latency_ms": 1354.5330632477999,
+      "retrieval_ms": 45.169259421527386,
+      "generation_ms": 1287.2112188488245,
+      "tokens": 433
+    },
+    {
+      "_id": "5a877df15542993e715abf7a",
+      "latency_ms": 1337.1099587529898,
+      "retrieval_ms": 64.16614260524511,
+      "generation_ms": 1261.0788084566593,
+      "tokens": 330
+    },
+    {
+      "_id": "5a808f96554299485f598655",
+      "latency_ms": 1322.6553155109286,
+      "retrieval_ms": 44.470359571278095,
+      "generation_ms": 1266.476876102388,
+      "tokens": 360
+    },
+    {
+      "_id": "5a89df265542992e4fca840d",
+      "latency_ms": 1354.125157929957,
+      "retrieval_ms": 46.777947805821896,
+      "generation_ms": 1295.291162095964,
+      "tokens": 483
+    },
+    {
+      "_id": "5a7a73e45542996c55b2ddb6",
+      "latency_ms": 1348.5917700454593,
+      "retrieval_ms": 28.085991740226746,
+      "generation_ms": 1308.9106539264321,
+      "tokens": 384
+    },
+    {
+      "_id": "5ae50eff55429908b6326500",
+      "latency_ms": 1320.3938379883766,
+      "retrieval_ms": 45.475732535123825,
+      "generation_ms": 1263.2169211283326,
+      "tokens": 352
+    },
+    {
+      "_id": "5ae16ea85542990adbacf790",
+      "latency_ms": 1322.5803766399622,
+      "retrieval_ms": 45.43733969330788,
+      "generation_ms": 1265.4114430770278,
+      "tokens": 439
+    },
+    {
+      "_id": "5ae657d55542995703ce8b5b",
+      "latency_ms": 1324.8051991686225,
+      "retrieval_ms": 36.59975901246071,
+      "generation_ms": 1276.2753833085299,
+      "tokens": 552
+    },
+    {
+      "_id": "5a8c42445542996e8ac88a3f",
+      "latency_ms": 1302.950195968151,
+      "retrieval_ms": 28.06070912629366,
+      "generation_ms": 1263.180911540985,
+      "tokens": 381
+    },
+    {
+      "_id": "5a82a1ae55429954d2e2eb89",
+      "latency_ms": 1345.0873624533415,
+      "retrieval_ms": 56.257245130836964,
+      "generation_ms": 1277.2854762151837,
+      "tokens": 404
+    },
+    {
+      "_id": "5add292b5542990d50227e0a",
+      "latency_ms": 1363.8193141669035,
+      "retrieval_ms": 40.91475158929825,
+      "generation_ms": 1310.2054838091135,
+      "tokens": 390
+    },
+    {
+      "_id": "5a7cc9db55429907fabef036",
+      "latency_ms": 1321.186081506312,
+      "retrieval_ms": 44.589051976799965,
+      "generation_ms": 1264.946123585105,
+      "tokens": 410
+    },
+    {
+      "_id": "5a7b735c5542997c3ec9718a",
+      "latency_ms": 1333.569479174912,
+      "retrieval_ms": 48.27321786433458,
+      "generation_ms": 1273.6759800463915,
+      "tokens": 419
+    },
+    {
+      "_id": "5ac213805542992f1f2b37e7",
+      "latency_ms": 1374.8092204332352,
+      "retrieval_ms": 68.47569812089205,
+      "generation_ms": 1294.2857630550861,
+      "tokens": 469
+    },
+    {
+      "_id": "5ae72c7d5542991e8301cb91",
+      "latency_ms": 1325.8766010403633,
+      "retrieval_ms": 26.963289827108383,
+      "generation_ms": 1287.630807608366,
+      "tokens": 325
+    },
+    {
+      "_id": "5a711bb55542994082a3e597",
+      "latency_ms": 1327.2905675694346,
+      "retrieval_ms": 43.03566738963127,
+      "generation_ms": 1272.858644835651,
+      "tokens": 416
+    },
+    {
+      "_id": "5ae684925542995703ce8b71",
+      "latency_ms": 1325.3339333459735,
+      "retrieval_ms": 47.86357283592224,
+      "generation_ms": 1265.9791270270944,
+      "tokens": 384
+    },
+    {
+      "_id": "5a7283355542991f9a20c4b1",
+      "latency_ms": 1310.8947779983282,
+      "retrieval_ms": 23.201599717140198,
+      "generation_ms": 1275.4526464268565,
+      "tokens": 436
+    },
+    {
+      "_id": "5a7557d75542992d0ec05f68",
+      "latency_ms": 1342.343632131815,
+      "retrieval_ms": 44.982919469475746,
+      "generation_ms": 1285.9407719224691,
+      "tokens": 393
+    },
+    {
+      "_id": "5a75227955429929fddd8508",
+      "latency_ms": 1309.6549231559038,
+      "retrieval_ms": 37.91740071028471,
+      "generation_ms": 1260.4970801621675,
+      "tokens": 437
+    },
+    {
+      "_id": "5abc0e095542996583600417",
+      "latency_ms": 1320.8450144156814,
+      "retrieval_ms": 36.02199722081423,
+      "generation_ms": 1284.7922258079052,
+      "tokens": 399
+    },
+    {
+      "_id": "5a8e00515542995a26add454",
+      "latency_ms": 1418.8505373895168,
+      "retrieval_ms": 50.318614579737186,
+      "generation_ms": 1356.5260330215096,
+      "tokens": 383
+    },
+    {
+      "_id": "5ae75c395542991bbc9761f7",
+      "latency_ms": 1313.341524451971,
+      "retrieval_ms": 40.050068870186806,
+      "generation_ms": 1261.5497093647718,
+      "tokens": 366
+    },
+    {
+      "_id": "5ae43d7f5542996836b02c59",
+      "latency_ms": 1309.605287387967,
+      "retrieval_ms": 24.556634947657585,
+      "generation_ms": 1273.150452412665,
+      "tokens": 434
+    },
+    {
+      "_id": "5a8ccceb554299653c1aa128",
+      "latency_ms": 1335.3450903669,
+      "retrieval_ms": 36.93640325218439,
+      "generation_ms": 1278.2429363578558,
+      "tokens": 529
+    },
+    {
+      "_id": "5adf95745542995534e8c7f8",
+      "latency_ms": 1402.7434261515737,
+      "retrieval_ms": 54.72655966877937,
+      "generation_ms": 1336.628750897944,
+      "tokens": 326
+    },
+    {
+      "_id": "5ac473e4554299204fd21f54",
+      "latency_ms": 1342.9457331076264,
+      "retrieval_ms": 37.60342299938202,
+      "generation_ms": 1293.801966123283,
+      "tokens": 391
+    },
+    {
+      "_id": "5ae1f3df554299234fd04364",
+      "latency_ms": 1385.6125585734844,
+      "retrieval_ms": 50.042085349559784,
+      "generation_ms": 1322.9833310469985,
+      "tokens": 457
+    },
+    {
+      "_id": "5ade86b255429939a52fe8e0",
+      "latency_ms": 1328.2155161723495,
+      "retrieval_ms": 41.54517874121666,
+      "generation_ms": 1274.8434003442526,
+      "tokens": 399
+    },
+    {
+      "_id": "5ab48bab5542991779162cd3",
+      "latency_ms": 1321.394863538444,
+      "retrieval_ms": 43.243441730737686,
+      "generation_ms": 1266.4544573053718,
+      "tokens": 378
+    },
+    {
+      "_id": "5a7458ff55429979e2882918",
+      "latency_ms": 1341.6655976325274,
+      "retrieval_ms": 45.80315202474594,
+      "generation_ms": 1282.9064195975661,
+      "tokens": 437
+    },
+    {
+      "_id": "5a8ea03e5542990e94052b81",
+      "latency_ms": 1333.5136780515313,
+      "retrieval_ms": 45.049180276691914,
+      "generation_ms": 1268.2448057457805,
+      "tokens": 425
+    },
+    {
+      "_id": "5ae1e22a5542997f29b3c160",
+      "latency_ms": 1361.2509788945317,
+      "retrieval_ms": 52.41157207638025,
+      "generation_ms": 1295.5910172313452,
+      "tokens": 404
+    },
+    {
+      "_id": "5abe364e5542993f32c2a08e",
+      "latency_ms": 1360.6054484844208,
+      "retrieval_ms": 42.50802285969257,
+      "generation_ms": 1305.4793858900666,
+      "tokens": 466
+    },
+    {
+      "_id": "5a8f44135542992414482a24",
+      "latency_ms": 1411.2556222826242,
+      "retrieval_ms": 38.27681206166744,
+      "generation_ms": 1361.4777801558375,
+      "tokens": 373
+    },
+    {
+      "_id": "5a7a1e635542990783324e69",
+      "latency_ms": 1378.29349655658,
+      "retrieval_ms": 49.9271284788847,
+      "generation_ms": 1317.0306282117963,
+      "tokens": 422
+    },
+    {
+      "_id": "5a752fb75542993748c897df",
+      "latency_ms": 1330.1052544265985,
+      "retrieval_ms": 21.236381493508816,
+      "generation_ms": 1296.0676737129688,
+      "tokens": 501
+    },
+    {
+      "_id": "5a7793275542992a6e59df04",
+      "latency_ms": 1320.6659723073244,
+      "retrieval_ms": 44.81141362339258,
+      "generation_ms": 1264.1042629256845,
+      "tokens": 348
+    },
+    {
+      "_id": "5ae2b794554299495565db10",
+      "latency_ms": 1361.1644646152854,
+      "retrieval_ms": 45.03420926630497,
+      "generation_ms": 1294.6374136954546,
+      "tokens": 379
+    },
+    {
+      "_id": "5a86e6f65542994775f6077c",
+      "latency_ms": 1344.643846154213,
+      "retrieval_ms": 58.631204068660736,
+      "generation_ms": 1274.0140045061707,
+      "tokens": 379
+    },
+    {
+      "_id": "5a77d4eb55429949eeb29f74",
+      "latency_ms": 1321.3402451947331,
+      "retrieval_ms": 26.415064930915833,
+      "generation_ms": 1282.5778294354677,
+      "tokens": 406
+    },
+    {
+      "_id": "5a8126265542995ce29dcbc9",
+      "latency_ms": 1342.761717736721,
+      "retrieval_ms": 43.761927634477615,
+      "generation_ms": 1286.8928043171763,
+      "tokens": 408
+    },
+    {
+      "_id": "5a8182e255429938b614234d",
+      "latency_ms": 1328.8679867982864,
+      "retrieval_ms": 20.768098533153534,
+      "generation_ms": 1296.431410126388,
+      "tokens": 462
+    },
+    {
+      "_id": "5ac27d2555429963665199dc",
+      "latency_ms": 1320.9672160446644,
+      "retrieval_ms": 25.721678510308266,
+      "generation_ms": 1283.47831312567,
+      "tokens": 384
+    },
+    {
+      "_id": "5adee8ff55429975fa854fb8",
+      "latency_ms": 1340.7914070412517,
+      "retrieval_ms": 45.0608991086483,
+      "generation_ms": 1283.7559804320335,
+      "tokens": 352
+    },
+    {
+      "_id": "5a7730015542994aec3b7210",
+      "latency_ms": 1373.4463192522526,
+      "retrieval_ms": 51.57996900379658,
+      "generation_ms": 1309.7170880064368,
+      "tokens": 504
+    },
+    {
+      "_id": "5a8b45765542995d1e6f1333",
+      "latency_ms": 1340.5141402035952,
+      "retrieval_ms": 28.84981781244278,
+      "generation_ms": 1300.2341790124774,
+      "tokens": 379
+    },
+    {
+      "_id": "5ae72a975542991e8301cb75",
+      "latency_ms": 1330.574793741107,
+      "retrieval_ms": 43.113429099321365,
+      "generation_ms": 1275.8257035166025,
+      "tokens": 423
+    },
+    {
+      "_id": "5ade3e69554299728e26c68d",
+      "latency_ms": 1340.1399180293083,
+      "retrieval_ms": 37.73850668221712,
+      "generation_ms": 1290.313096717,
+      "tokens": 495
+    },
+    {
+      "_id": "5ae3d0bb5542990afbd1e1e5",
+      "latency_ms": 1418.1740218773484,
+      "retrieval_ms": 45.39011139422655,
+      "generation_ms": 1351.3071285560727,
+      "tokens": 399
+    },
+    {
+      "_id": "5abfa0be5542990832d3a173",
+      "latency_ms": 1327.6687832549214,
+      "retrieval_ms": 46.17260489612818,
+      "generation_ms": 1268.92280112952,
+      "tokens": 434
+    },
+    {
+      "_id": "5a7ca98f55429935c91b5288",
+      "latency_ms": 1323.6556956544518,
+      "retrieval_ms": 56.2406936660409,
+      "generation_ms": 1256.0519771650434,
+      "tokens": 372
+    },
+    {
+      "_id": "5a7776b955429967ab10519e",
+      "latency_ms": 1299.840223044157,
+      "retrieval_ms": 25.45731235295534,
+      "generation_ms": 1262.7981072291732,
+      "tokens": 445
+    },
+    {
+      "_id": "5a7b72e15542997c3ec97187",
+      "latency_ms": 1325.1350410282612,
+      "retrieval_ms": 44.61307357996702,
+      "generation_ms": 1268.0616732686758,
+      "tokens": 528
+    },
+    {
+      "_id": "5a7fb7985542994857a767d2",
+      "latency_ms": 1295.2351151034236,
+      "retrieval_ms": 19.710952416062355,
+      "generation_ms": 1264.0074100345373,
+      "tokens": 452
+    },
+    {
+      "_id": "5ab56ed0554299637185c597",
+      "latency_ms": 1328.6666320636868,
+      "retrieval_ms": 52.59119626134634,
+      "generation_ms": 1264.601282775402,
+      "tokens": 409
+    },
+    {
+      "_id": "5ae09d6155429945ae9593d4",
+      "latency_ms": 1355.5475808680058,
+      "retrieval_ms": 41.363696567714214,
+      "generation_ms": 1302.0359696820378,
+      "tokens": 365
+    },
+    {
+      "_id": "5ae2c6bf554299492dc91c6c",
+      "latency_ms": 1298.9322915673256,
+      "retrieval_ms": 39.33803830295801,
+      "generation_ms": 1248.6231978982687,
+      "tokens": 283
+    },
+    {
+      "_id": "5abdf68c5542993f32c2a06b",
+      "latency_ms": 1308.4919769316912,
+      "retrieval_ms": 45.14427948743105,
+      "generation_ms": 1251.8877107650042,
+      "tokens": 379
+    },
+    {
+      "_id": "5a7fe0b55542994857a76818",
+      "latency_ms": 1308.5955325514078,
+      "retrieval_ms": 43.1950818747282,
+      "generation_ms": 1253.7950575351715,
+      "tokens": 351
+    },
+    {
+      "_id": "5adcad175542994ed6169bc3",
+      "latency_ms": 1326.2636912986636,
+      "retrieval_ms": 44.023302383720875,
+      "generation_ms": 1270.6735245883465,
+      "tokens": 356
+    },
+    {
+      "_id": "5a7c220b5542990527d5545c",
+      "latency_ms": 1323.0747925117612,
+      "retrieval_ms": 40.39930831640959,
+      "generation_ms": 1261.6704273968935,
+      "tokens": 409
+    },
+    {
+      "_id": "5ab96d405542996be20204de",
+      "latency_ms": 1345.8245070651174,
+      "retrieval_ms": 48.51489141583443,
+      "generation_ms": 1285.569280385971,
+      "tokens": 506
+    },
+    {
+      "_id": "5a7149cf5542994082a3e773",
+      "latency_ms": 1358.0613359808922,
+      "retrieval_ms": 58.67587961256504,
+      "generation_ms": 1287.412422709167,
+      "tokens": 436
+    },
+    {
+      "_id": "5a7616755542992d0ec06028",
+      "latency_ms": 1321.0127893835306,
+      "retrieval_ms": 55.26840128004551,
+      "generation_ms": 1254.4516427442431,
+      "tokens": 319
+    },
+    {
+      "_id": "5ac1a9cc5542994ab5c67dc0",
+      "latency_ms": 1308.9105654507875,
+      "retrieval_ms": 38.914233446121216,
+      "generation_ms": 1258.9427698403597,
+      "tokens": 383
+    },
+    {
+      "_id": "5ac45b23554299204fd21f31",
+      "latency_ms": 1341.7304074391723,
+      "retrieval_ms": 58.798578567802906,
+      "generation_ms": 1271.769662387669,
+      "tokens": 408
+    },
+    {
+      "_id": "5ab9560855429970cfb8ea73",
+      "latency_ms": 1329.77291662246,
+      "retrieval_ms": 43.67326386272907,
+      "generation_ms": 1274.4593359529972,
+      "tokens": 437
+    },
+    {
+      "_id": "5a84f06f5542994c784dda92",
+      "latency_ms": 1349.9356415122747,
+      "retrieval_ms": 45.97735404968262,
+      "generation_ms": 1291.7585298418999,
+      "tokens": 441
+    },
+    {
+      "_id": "5adf6a5c5542995ec70e8ff9",
+      "latency_ms": 1350.2074461430311,
+      "retrieval_ms": 69.25401370972395,
+      "generation_ms": 1269.561710767448,
+      "tokens": 408
+    },
+    {
+      "_id": "5ac03b395542992a796decce",
+      "latency_ms": 1316.1328230053186,
+      "retrieval_ms": 23.17109890282154,
+      "generation_ms": 1280.1710972562432,
+      "tokens": 449
+    },
+    {
+      "_id": "5ab4071955429976abd1bd38",
+      "latency_ms": 1321.741591207683,
+      "retrieval_ms": 28.04255485534668,
+      "generation_ms": 1281.8903727456927,
+      "tokens": 464
+    },
+    {
+      "_id": "5a85cd295542997175ce202b",
+      "latency_ms": 1339.6876528859138,
+      "retrieval_ms": 44.05375011265278,
+      "generation_ms": 1283.372645266354,
+      "tokens": 446
+    },
+    {
+      "_id": "5a86ed6155429960ec39b6d9",
+      "latency_ms": 1407.3421517387033,
+      "retrieval_ms": 79.39029578119516,
+      "generation_ms": 1308.2337211817503,
+      "tokens": 422
+    },
+    {
+      "_id": "5a90bb4e55429916514e7536",
+      "latency_ms": 1308.9427119120955,
+      "retrieval_ms": 38.759651593863964,
+      "generation_ms": 1259.0872682631016,
+      "tokens": 352
+    },
+    {
+      "_id": "5ac257fe55429951e9e68562",
+      "latency_ms": 1338.6651249602437,
+      "retrieval_ms": 46.016083098948,
+      "generation_ms": 1280.4695600643754,
+      "tokens": 386
+    },
+    {
+      "_id": "5a90ba1b55429933b8a205c6",
+      "latency_ms": 1314.5357221364975,
+      "retrieval_ms": 37.53310162574053,
+      "generation_ms": 1265.84748364985,
+      "tokens": 397
+    },
+    {
+      "_id": "5aba94e355429901930fa845",
+      "latency_ms": 1337.726484052837,
+      "retrieval_ms": 54.71367947757244,
+      "generation_ms": 1271.0687424987555,
+      "tokens": 476
+    },
+    {
+      "_id": "5ae1f2d4554299234fd04358",
+      "latency_ms": 1315.7289735972881,
+      "retrieval_ms": 37.71492652595043,
+      "generation_ms": 1266.1448130384088,
+      "tokens": 437
+    },
+    {
+      "_id": "5a75462d5542996c70cfaed3",
+      "latency_ms": 1318.7425779178739,
+      "retrieval_ms": 38.7718491256237,
+      "generation_ms": 1268.0595507845283,
+      "tokens": 415
+    },
+    {
+      "_id": "5ae0ac1c5542993d6555ec07",
+      "latency_ms": 1314.7835051640868,
+      "retrieval_ms": 35.622911527752876,
+      "generation_ms": 1267.6599640399218,
+      "tokens": 430
+    },
+    {
+      "_id": "5adc6f6255429947ff173961",
+      "latency_ms": 1309.3642257153988,
+      "retrieval_ms": 25.18870308995247,
+      "generation_ms": 1272.3597893491387,
+      "tokens": 413
+    },
+    {
+      "_id": "5a8756aa5542994846c1cd69",
+      "latency_ms": 1313.8753063976765,
+      "retrieval_ms": 49.160558730363846,
+      "generation_ms": 1253.5813273862004,
+      "tokens": 335
+    },
+    {
+      "_id": "5ab8736455429916710eb058",
+      "latency_ms": 1314.8311208933592,
+      "retrieval_ms": 42.303469963371754,
+      "generation_ms": 1261.3622676581144,
+      "tokens": 365
+    },
+    {
+      "_id": "5ae0fe4e554299422ee995a9",
+      "latency_ms": 1329.560287296772,
+      "retrieval_ms": 43.55482570827007,
+      "generation_ms": 1274.138541892171,
+      "tokens": 473
+    },
+    {
+      "_id": "5a878d795542993e715abf9d",
+      "latency_ms": 1339.2232870683074,
+      "retrieval_ms": 65.30546955764294,
+      "generation_ms": 1262.2976507991552,
+      "tokens": 437
+    },
+    {
+      "_id": "5a7781c955429949eeb29ea8",
+      "latency_ms": 1364.9789430201054,
+      "retrieval_ms": 43.405028991401196,
+      "generation_ms": 1308.8580714538693,
+      "tokens": 524
+    },
+    {
+      "_id": "5a8d51355542994ba4e3dc6b",
+      "latency_ms": 1335.8697220683098,
+      "retrieval_ms": 60.75520068407059,
+      "generation_ms": 1263.9893535524607,
+      "tokens": 364
+    },
+    {
+      "_id": "5a70f6425542994082a3e44c",
+      "latency_ms": 1316.6715558618307,
+      "retrieval_ms": 43.59062667936087,
+      "generation_ms": 1261.4622674882412,
+      "tokens": 479
+    },
+    {
+      "_id": "5aba7e2c55429955dce3ee5a",
+      "latency_ms": 1317.0281434431672,
+      "retrieval_ms": 36.65328677743673,
+      "generation_ms": 1268.529312685132,
+      "tokens": 361
+    },
+    {
+      "_id": "5a7c651a55429935c91b5188",
+      "latency_ms": 1303.300241008401,
+      "retrieval_ms": 26.93940419703722,
+      "generation_ms": 1265.099455602467,
+      "tokens": 389
+    },
+    {
+      "_id": "5a81ca0d5542990a1d231ebb",
+      "latency_ms": 1324.4837988168001,
+      "retrieval_ms": 47.44599852710962,
+      "generation_ms": 1264.1042172908783,
+      "tokens": 353
+    },
+    {
+      "_id": "5a825da055429954d2e2eb17",
+      "latency_ms": 1335.0833039730787,
+      "retrieval_ms": 44.7256900370121,
+      "generation_ms": 1278.27656455338,
+      "tokens": 438
+    },
+    {
+      "_id": "5a73630655429901807db020",
+      "latency_ms": 1338.1803845986724,
+      "retrieval_ms": 39.57099746912718,
+      "generation_ms": 1287.0865929871798,
+      "tokens": 463
+    },
+    {
+      "_id": "5a77aa095542995d83181260",
+      "latency_ms": 1314.235843718052,
+      "retrieval_ms": 44.471840374171734,
+      "generation_ms": 1269.7295947000384,
+      "tokens": 299
+    },
+    {
+      "_id": "5ab97cd0554299753720f81a",
+      "latency_ms": 1320.3175133094192,
+      "retrieval_ms": 41.27617087215185,
+      "generation_ms": 1267.3004614189267,
+      "tokens": 384
+    },
+    {
+      "_id": "5a84de5f5542991dd0999e07",
+      "latency_ms": 1372.915587387979,
+      "retrieval_ms": 44.804442673921585,
+      "generation_ms": 1300.4851397126913,
+      "tokens": 416
+    },
+    {
+      "_id": "5ae06ee755429945ae959352",
+      "latency_ms": 1323.0328625068069,
+      "retrieval_ms": 32.022830098867416,
+      "generation_ms": 1278.658407740295,
+      "tokens": 402
+    },
+    {
+      "_id": "5ab84bab55429934fafe6d49",
+      "latency_ms": 1334.4125542789698,
+      "retrieval_ms": 20.977518521249294,
+      "generation_ms": 1293.6599804088473,
+      "tokens": 470
+    },
+    {
+      "_id": "5ae6793e5542991bbc9760e2",
+      "latency_ms": 1320.8657084032893,
+      "retrieval_ms": 40.77182710170746,
+      "generation_ms": 1268.5803277418017,
+      "tokens": 523
+    },
+    {
+      "_id": "5a81418455429903bc27b95f",
+      "latency_ms": 1321.0643464699388,
+      "retrieval_ms": 43.06303150951862,
+      "generation_ms": 1266.5499448776245,
+      "tokens": 395
+    },
+    {
+      "_id": "5adc872b5542994d58a2f62f",
+      "latency_ms": 1309.9060552194715,
+      "retrieval_ms": 24.336385540664196,
+      "generation_ms": 1272.8087855502963,
+      "tokens": 443
+    },
+    {
+      "_id": "5ae81b895542997ec272770c",
+      "latency_ms": 1361.3780522719026,
+      "retrieval_ms": 41.4351811632514,
+      "generation_ms": 1306.9486850872636,
+      "tokens": 476
+    },
+    {
+      "_id": "5a7e910a554299306751357f",
+      "latency_ms": 1378.901932388544,
+      "retrieval_ms": 55.731408298015594,
+      "generation_ms": 1311.8131626397371,
+      "tokens": 388
+    },
+    {
+      "_id": "5a8f75e6554299458435d635",
+      "latency_ms": 1365.8289462327957,
+      "retrieval_ms": 63.8091117143631,
+      "generation_ms": 1288.3333498612046,
+      "tokens": 494
+    },
+    {
+      "_id": "5a7e040f5542990b8f503b13",
+      "latency_ms": 1306.4962550997734,
+      "retrieval_ms": 19.96547169983387,
+      "generation_ms": 1274.7022090479732,
+      "tokens": 404
+    },
+    {
+      "_id": "5addb1515542995b365fab60",
+      "latency_ms": 1328.7506876513362,
+      "retrieval_ms": 41.8441379442811,
+      "generation_ms": 1275.0773513689637,
+      "tokens": 364
+    },
+    {
+      "_id": "5ab80bbf5542991d32223818",
+      "latency_ms": 1320.2662011608481,
+      "retrieval_ms": 21.80443424731493,
+      "generation_ms": 1286.2646440044045,
+      "tokens": 505
+    },
+    {
+      "_id": "5a848a685542997b5ce3feae",
+      "latency_ms": 1341.682638041675,
+      "retrieval_ms": 54.656028747558594,
+      "generation_ms": 1275.383091531694,
+      "tokens": 385
+    },
+    {
+      "_id": "5ab6238e554299710c8d1e6d",
+      "latency_ms": 1322.9391183704138,
+      "retrieval_ms": 56.405605748295784,
+      "generation_ms": 1255.9008188545704,
+      "tokens": 291
+    },
+    {
+      "_id": "5ab92307554299753720f72d",
+      "latency_ms": 1299.0529853850603,
+      "retrieval_ms": 44.6820966899395,
+      "generation_ms": 1254.3382048606873,
+      "tokens": 367
+    },
+    {
+      "_id": "5abba3b1554299642a094aed",
+      "latency_ms": 1312.9517622292042,
+      "retrieval_ms": 44.51858252286911,
+      "generation_ms": 1257.0045283064246,
+      "tokens": 382
+    },
+    {
+      "_id": "5a8173fa554299260e20a28e",
+      "latency_ms": 1342.7732475101948,
+      "retrieval_ms": 44.35607511550188,
+      "generation_ms": 1286.5023976191878,
+      "tokens": 437
+    },
+    {
+      "_id": "5a8caf1d554299585d9e3720",
+      "latency_ms": 1299.7421445325017,
+      "retrieval_ms": 18.782160244882107,
+      "generation_ms": 1269.3425584584475,
+      "tokens": 462
+    },
+    {
+      "_id": "5ac132a755429964131be17c",
+      "latency_ms": 1311.9633393362164,
+      "retrieval_ms": 43.66990365087986,
+      "generation_ms": 1257.009838707745,
+      "tokens": 391
+    }
+  ]
+}

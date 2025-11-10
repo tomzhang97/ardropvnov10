@@ -1,0 +1,100 @@
+{
+  "config": {
+    "data_path": "runs/_shards/dev_4000_5000.json",
+    "output_dir": "results/hotpotqa_full/dev_4000_5000",
+    "llm_model": "meta-llama/Meta-Llama-3-8B-Instruct",
+    "embed_model": "sentence-transformers/all-MiniLM-L6-v2",
+    "device": 0,
+    "limit": 0,
+    "retrieval_k": 3,
+    "lambda_redundancy": 0.3,
+    "risk_budget_alpha": 0.05,
+    "budget_tokens": 0,
+    "seed": 42
+  },
+  "summary": {
+    "vanilla_rag": {
+      "n": 1000,
+      "em_mean": 0.0,
+      "em_std": 0.0,
+      "f1_mean": 0.06892192737897256,
+      "f1_std": 0.06757036423126227,
+      "tokens_mean": 144.442,
+      "tokens_std": 22.916863572487397,
+      "latency_mean": 1695.6250381805003,
+      "latency_p50": 1778.839249163866,
+      "latency_p95": 1785.9494487755
+    },
+    "agentragdrop_none": {
+      "n": 1000,
+      "em_mean": 0.136,
+      "em_std": 0.34278856457005674,
+      "f1_mean": 0.18950566459684107,
+      "f1_std": 0.36425584891332347,
+      "tokens_mean": 583.13,
+      "tokens_std": 114.89963054770891,
+      "latency_mean": 1356.3369952514768,
+      "latency_p50": 1353.450320661068,
+      "latency_p95": 3121.1315847933292
+    },
+    "agentragdrop_lazy_greedy": {
+      "n": 1000,
+      "em_mean": 0.136,
+      "em_std": 0.34278856457005674,
+      "f1_mean": 0.18950566459684107,
+      "f1_std": 0.36425584891332347,
+      "tokens_mean": 349.795,
+      "tokens_std": 34.17219593470692,
+      "latency_mean": 553.6473221424967,
+      "latency_p50": 908.3458408713341,
+      "latency_p95": 916.9473995454609
+    },
+    "agentragdrop_risk_controlled": {
+      "n": 1000,
+      "em_mean": 0.136,
+      "em_std": 0.34278856457005674,
+      "f1_mean": 0.18950566459684107,
+      "f1_std": 0.36425584891332347,
+      "tokens_mean": 349.795,
+      "tokens_std": 34.17219593470692,
+      "latency_mean": 554.6691388301551,
+      "latency_p50": 909.0547291561961,
+      "latency_p95": 919.1600912250578
+    }
+  },
+  "significance_tests": {
+    "agentragdrop_lazy_greedy_vs_vanilla_rag_f1": {
+      "observed_diff": 0.1205837372178685,
+      "p_value": 0.0,
+      "ci_lower": 0.09965304931924705,
+      "ci_upper": 0.1422780618461641,
+      "significant_at_0.05": true,
+      "significant_at_0.01": true
+    },
+    "agentragdrop_lazy_greedy_vs_vanilla_rag_tokens": {
+      "observed_diff": 205.353,
+      "p_value": 0.0,
+      "ci_lower": 204.035925,
+      "ci_upper": 206.53225,
+      "significant_at_0.05": true,
+      "significant_at_0.01": true
+    },
+    "agentragdrop_risk_controlled_vs_vanilla_rag_f1": {
+      "observed_diff": 0.1205837372178685,
+      "p_value": 0.0,
+      "ci_lower": 0.09779177502458779,
+      "ci_upper": 0.14363437685506006,
+      "significant_at_0.05": true,
+      "significant_at_0.01": true
+    },
+    "agentragdrop_risk_controlled_vs_vanilla_rag_tokens": {
+      "observed_diff": 205.353,
+      "p_value": 0.0,
+      "ci_lower": 204.06525,
+      "ci_upper": 206.67317500000001,
+      "significant_at_0.05": true,
+      "significant_at_0.01": true
+    }
+  },
+  "timestamp": "2025-11-10 13:38:55"
+}

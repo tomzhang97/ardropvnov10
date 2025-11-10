@@ -1,0 +1,25 @@
+faiss-gpu-cu12
+numpy>=1.24.0
+torch --index-url https://download.pytorch.org/whl/cu126
+torchvision --index-url https://download.pytorch.org/whl/cu126
+transformers>=4.41.0
+accelerate>=0.33.0
+sentence-transformers>=2.6.1
+langchain>=0.2.14
+langchain-community>=0.2.14
+langchain-huggingface>=0.0.2
+psycopg2-binary>=2.9.9  # optional baseline (pgvector)
+hf_xet
+pandas
+bitsandbytes
+tqdm
+
+# For evaluation and plotting
+matplotlib
+seaborn>=0.12.0
+scipy>=1.10.0
+
+# For dataset preparation
+datasets>=2.14.0
+
+# If you see SSL errors pulling models, set: HF_HUB_DISABLE_TELEMETRY=1
