@@ -1,7 +1,7 @@
 from .utils import token_estimate
 from .rag import make_retriever
+from .answer_cleaning import clean_answer
 from typing import Optional, List, Dict, Any
-import re
 import time
 
 class AgentResult(dict):
@@ -137,6 +137,7 @@ class ComposerAgent:
         
         prompt = (
             "You are the Composer. Use only the evidence. Return a SHORT PHRASE copied verbatim from the evidence when possible. Do NOT explain.\n"
+            "If the answer cannot be determined from the evidence, output exactly: unknown.\n"
             f"Question: {question}\n"
             "Evidence:\n" + "\n".join(f"- {e[:400]}" for e in (evidence or [])[:4]) + "\n"
             f"Validator Verdict: {getattr(validator, 'verdict', 'N/A')}\n"
@@ -144,13 +145,17 @@ class ComposerAgent:
             "Answer:"
         )
         ans = self.llm.generate(prompt, max_new_tokens=128)
-        
+        cleaned = clean_answer(ans, question)
+        if not cleaned:
+            cleaned = "unknown"
+
         t_elapsed = time.perf_counter() - t_start
         self.total_calls += 1
         self.total_latency += t_elapsed
-        
+
         return AgentResult({
-            "answer": ans.strip(), 
+            "answer": cleaned,
+            "raw_answer": ans.strip(),
             "tokens_est": token_estimate(prompt + ans),
             "latency_ms": t_elapsed * 1000
         })
@@ -199,104 +204,33 @@ A: 1964
         prompt = (
             "You are answering questions using provided context. "
             "Give ONLY the direct answer - a name, number, yes/no, or short phrase. "
-            "Do NOT write explanations or full sentences.\n\n"
+            "Do NOT write explanations or full sentences.\n"
+            "If the answer cannot be determined from the context, output exactly: unknown.\n\n"
             + self.few_shot_examples +
             "Now answer this question:\n\n"
             f"Q: {question}\n"
             "Context:\n" + "\n".join(f"{i+1}. {e[:250]}" for i, e in enumerate((evidence or [])[:6])) + "\n"
             "A:"
         )
-        
-        ans = self.llm.generate(prompt, max_new_tokens=32)
-        ans = self._clean_answer(ans)
-        
+
+        raw_ans = self.llm.generate(prompt, max_new_tokens=32)
+        ans = self._clean_answer(raw_ans, question)
+        if not ans:
+            ans = "unknown"
+
         t_elapsed = time.perf_counter() - t_start
         self.total_calls += 1
         self.total_latency += t_elapsed
-        
+
         return AgentResult({
-            "answer": ans, 
-            "tokens_est": token_estimate(prompt + ans),
+            "answer": ans,
+            "raw_answer": raw_ans.strip(),
+            "tokens_est": token_estimate(prompt + raw_ans),
             "latency_ms": t_elapsed * 1000
         })
-    
-    def _clean_answer(self, ans: str) -> str:
-        """
-        Aggressive cleaning for HotpotQA format.
-        
-        HotpotQA expects SHORT answers: entity names, yes/no, numbers, short phrases.
-        This function strips explanations and extracts the core answer.
-        """
-        if not ans:
-            return ""
-        
-        ans = ans.strip()
-        
-        # Remove citations [1], [2], etc.
-        ans = re.sub(r'\[\d+\]', '', ans)
-        ans = re.sub(r'\*+', '', ans)
-        
-        # Remove common explanation prefixes
-        prefixes = [
-            r'^Answer:\s*', 
-            r'^A:\s*', 
-            r'^The answer is:?\s*',
-            r'^The correct answer is:?\s*',
-            r'^Based on (the )?context,?\s*', 
-            r'^According to (the )?(context|passage|text),?\s*',
-            r'^It is\s*', 
-            r'^They are\s*',
-            r'^This is\s*',
-            r'^That is\s*',
-            r'^From (the )?(context|passage),?\s*'
-        ]
-        for prefix in prefixes:
-            ans = re.sub(prefix, '', ans, flags=re.IGNORECASE)
-        
-        # Handle yes/no questions specially
-        ans_lower = ans.lower()
-        if any(word in ans_lower for word in ['yes', 'no', 'noanswer']):
-            if 'yes' in ans_lower and 'no' not in ans_lower:
-                return 'yes'
-            elif 'no' in ans_lower and 'yes' not in ans_lower:
-                return 'no'
-            elif 'noanswer' in ans_lower:
-                return 'noanswer'
-        
-        # Split on first sentence-ending punctuation or newline
-        # Keep only first sentence/clause
-        ans = re.split(r'[.!?\n]', ans)[0].strip()
-        
-        # Remove quotes
-        ans = ans.strip('"\'')
-        
-        # Remove leading articles (a, an, the)
-        ans = re.sub(r'^\s*(a|an|the)\s+', '', ans, flags=re.IGNORECASE)
-        
-        # Collapse multiple spaces
-        ans = re.sub(r'\s+', ' ', ans)
-        
-        # Remove trailing punctuation
-        ans = ans.rstrip('.,;:!?')
-        
-        # Handle "The answer is X" pattern that survived
-        if ans.lower().startswith('answer is '):
-            ans = ans[10:].strip()
-        
-        # If answer is too long (>15 words), it's probably an explanation
-        # Try to extract key entity or phrase
-        words = ans.split()
-        if len(words) > 15:
-            # Look for capitalized sequences (entity names)
-            entities = re.findall(r'\b[A-Z][a-z]+(?:\s+[A-Z][a-z]+)*\b', ans)
-            if entities:
-                # Return longest entity found
-                ans = max(entities, key=len)
-            else:
-                # Just take first 5 words as fallback
-                ans = ' '.join(words[:5])
-        
-        return ans.strip()
+
+    def _clean_answer(self, ans: str, question: str) -> str:
+        return clean_answer(ans, question)
     
     def get_metrics(self) -> dict:
         return {
