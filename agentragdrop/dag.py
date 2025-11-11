@@ -21,6 +21,9 @@ class ExecutionDAG:
         ctx, outputs = dict(inputs), {}
         start_time = time.perf_counter()
         used_tokens = 0
+        best_composer: dict | None = None
+        best_answer: str | None = None
+        budget_hit = False
 
         # Determine the execution plan (which nodes to skip)
         order_to_check = [node.name for node in self.nodes]
@@ -29,7 +32,7 @@ class ExecutionDAG:
         for node in self.nodes:
             # --- Anytime Budget Checks ---
             if budget_time_ms and (time.perf_counter() - start_time) * 1000 > budget_time_ms:
-                outputs.setdefault("composer", {})["answer"] = "[Anytime time budget reached]"
+                budget_hit = True
                 break
 
             # --- Pruning Check ---
@@ -56,15 +59,55 @@ class ExecutionDAG:
             ctx[node.name] = out
             if node.name == "retriever":
                 ctx["evidence"] = out.get("evidence", [])
+            elif node.name == "composer" and isinstance(out, dict):
+                answer = str(out.get("answer", "")).strip()
+                if answer:
+                    best_answer = answer
+                    best_composer = out
+                elif best_composer is None:
+                    best_composer = out
 
             # --- Token Budget Check (Post-execution) ---
             if isinstance(out, dict):
                 used_tokens += int(out.get("tokens_est", 0))
             if budget_tokens and used_tokens > budget_tokens:
-                outputs.setdefault("composer", {})["answer"] = "[Anytime token budget reached]"
+                budget_hit = True
                 break
 
         if self.logger:
             self.logger.log({"event": "cache_stats", **self.cache.stats()})
+
+        if budget_hit:
+            # If composer never ran, try to execute it once with available context
+            if (best_composer is None and
+                    any(node.name == "composer" for node in self.nodes) and
+                    "composer" not in nodes_to_skip):
+                try:
+                    composer_node = next(node for node in self.nodes if node.name == "composer")
+                    out = composer_node.fn(**ctx)
+                    if isinstance(out, dict):
+                        outputs["composer"] = out
+                        answer = str(out.get("answer", "")).strip()
+                        if answer:
+                            best_answer = answer
+                            best_composer = out
+                        elif best_composer is None:
+                            best_composer = out
+                except StopIteration:
+                    pass
+                except Exception as exc:
+                    outputs.setdefault("composer", {})["error"] = str(exc)
+
+        if best_composer is not None:
+            payload = dict(best_composer)
+            if best_answer:
+                payload["answer"] = best_answer
+            elif not str(payload.get("answer", "")).strip():
+                payload["answer"] = "unknown"
+            outputs["composer"] = payload
+        else:
+            composer_payload = outputs.setdefault("composer", {})
+            final_answer = str(composer_payload.get("answer", "")).strip()
+            composer_payload["answer"] = final_answer or best_answer or "unknown"
 
         return outputs

@@ -18,6 +18,8 @@ import re
 from typing import List, Dict, Any, Optional
 from collections import defaultdict
 
+from agentragdrop.answer_cleaning import clean_answer
+
 
 # ============================================================================
 # VANILLA RAG (Simple Baseline)
@@ -68,17 +70,20 @@ class VanillaRAG:
             f"Answer:"
         )
         
-        answer = self.llm.generate(prompt, max_new_tokens=64)
-        
+        raw_answer = self.llm.generate(prompt, max_new_tokens=64)
+        cleaned_answer = clean_answer(raw_answer, question)
+
         latency_ms = (time.perf_counter() - t_start) * 1000
-        tokens = len(prompt.split()) + len(answer.split())
-        
+        tokens = len(prompt.split()) + len(raw_answer.split())
+
         return {
-            "answer": answer.strip(),
+            "answer": cleaned_answer,
+            "raw_answer": raw_answer.strip(),
             "tokens": tokens,
             "latency_ms": latency_ms,
             "agents_executed": ["retriever", "composer"],
             "agents_pruned": [],
+            "retrieved_context": evidence,
             "evidence": evidence
         }
 
