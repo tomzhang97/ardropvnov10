@@ -24,9 +24,9 @@ class ExecutionDAG:
         best_composer: dict | None = None
         budget_hit = False
 
-        # Determine the execution plan (which nodes to skip)
-        order_to_check = [node.name for node in self.nodes]
-        nodes_to_skip = set(pruner.decide(order_to_check, ctx)) if pruner else set()
+            # Determine the execution plan (which nodes to skip)
+            order_to_check = [node.name for node in self.nodes]
+            nodes_to_skip = set(pruner.decide(order_to_check, ctx)) if pruner else set()
 
         for node in self.nodes:
             # --- Anytime Budget Checks ---
@@ -34,25 +34,25 @@ class ExecutionDAG:
                 budget_hit = True
                 break
 
-            # --- Pruning Check ---
-            if node.name in nodes_to_skip:
-                if self.logger: self.logger.log({"event": "pruned", "node": node.name})
-                continue
+                # --- Pruning Check ---
+                if node.name in nodes_to_skip:
+                    if self.logger: self.logger.log({"event": "pruned", "node": node.name})
+                    continue
 
-            # --- Cache Check ---
-            cached_result = self.cache.get(node.name, ctx)
-            if cached_result is not None:
-                out = cached_result
-                if self.logger: self.logger.log({"event": "cache_hit", "node": node.name})
-            else:
-                t0_exec = time.perf_counter()
-                out = node.fn(**ctx)
-                self.cache.put(node.name, ctx, out)
-                if self.logger:
-                    self.logger.log({
-                        "event": "exec", "node": node.name,
-                        "latency_ms": (time.perf_counter() - t0_exec) * 1000.0
-                    })
+                # --- Cache Check ---
+                cached_result = self.cache.get(node.name, ctx)
+                if cached_result is not None:
+                    out = cached_result
+                    if self.logger: self.logger.log({"event": "cache_hit", "node": node.name})
+                else:
+                    t0_exec = time.perf_counter()
+                    out = node.fn(**ctx)
+                    self.cache.put(node.name, ctx, out)
+                    if self.logger:
+                        self.logger.log({
+                            "event": "exec", "node": node.name,
+                            "latency_ms": (time.perf_counter() - t0_exec) * 1000.0
+                        })
 
             outputs[node.name] = out
             ctx[node.name] = out
@@ -68,8 +68,19 @@ class ExecutionDAG:
                 budget_hit = True
                 break
 
-        if self.logger:
-            self.logger.log({"event": "cache_stats", **self.cache.stats()})
+            # CRITICAL FIX: Never emit sentinel strings
+            # If budget was exceeded and we have a composer output, use last valid answer
+            if budget_exceeded and "composer" in outputs:
+                if isinstance(outputs["composer"], dict):
+                    current_answer = outputs["composer"].get("answer", "")
+                    # If current answer is a sentinel, replace with last valid or "unknown"
+                    if current_answer in ["_______", "[Anytime token budget reached]", 
+                                        "[Anytime time budget reached]", ""]:
+                        outputs["composer"]["answer"] = last_valid_answer or "unknown"
+            
+            # If no composer output at all, create one with best guess
+            if "composer" not in outputs:
+                outputs["composer"] = {"answer": "unknown", "tokens_est": 0}
 
         if budget_hit:
             # If composer never ran, try to execute it once with available context

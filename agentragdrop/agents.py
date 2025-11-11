@@ -36,7 +36,7 @@ class RetrieverAgent:
 
         return {
             "hits": hits, 
-            "evidence": evidence, 
+            "evidence": evidence,  
             "tokens_est": 0,
             "latency_ms": t_elapsed * 1000
         }
@@ -222,9 +222,84 @@ A: 1964
             "tokens_est": token_estimate(prompt + raw_ans),
             "latency_ms": t_elapsed * 1000
         })
-
-    def _clean_answer(self, ans: str, question: str) -> str:
-        return clean_answer(ans, question)
+    
+    def _clean_answer(self, ans: str) -> str:
+        """
+        Aggressive cleaning for HotpotQA format.
+        
+        HotpotQA expects SHORT answers: entity names, yes/no, numbers, short phrases.
+        This function strips explanations and extracts the core answer.
+        """
+        if not ans:
+            return ""
+        
+        ans = ans.strip()
+        
+        # Remove citations [1], [2], etc.
+        ans = re.sub(r'\[\d+\]', '', ans)
+        ans = re.sub(r'\*+', '', ans)
+        
+        # Remove common explanation prefixes
+        prefixes = [
+            r'^Answer:\s*', 
+            r'^A:\s*', 
+            r'^The answer is:?\s*',
+            r'^The correct answer is:?\s*',
+            r'^Based on (the )?context,?\s*', 
+            r'^According to (the )?(context|passage|text),?\s*',
+            r'^It is\s*', 
+            r'^They are\s*',
+            r'^This is\s*',
+            r'^That is\s*',
+            r'^From (the )?(context|passage),?\s*'
+        ]
+        for prefix in prefixes:
+            ans = re.sub(prefix, '', ans, flags=re.IGNORECASE)
+        
+        # Handle yes/no questions specially
+        ans_lower = ans.lower()
+        if any(word in ans_lower for word in ['yes', 'no', 'noanswer']):
+            if 'yes' in ans_lower and 'no' not in ans_lower:
+                return 'yes'
+            elif 'no' in ans_lower and 'yes' not in ans_lower:
+                return 'no'
+            elif 'noanswer' in ans_lower:
+                return 'noanswer'
+        
+        # Split on first sentence-ending punctuation or newline
+        # Keep only first sentence/clause
+        ans = re.split(r'[.!?\n]', ans)[0].strip()
+        
+        # Remove quotes
+        ans = ans.strip('"\'')
+        
+        # Remove leading articles (a, an, the)
+        ans = re.sub(r'^\s*(a|an|the)\s+', '', ans, flags=re.IGNORECASE)
+        
+        # Collapse multiple spaces
+        ans = re.sub(r'\s+', ' ', ans)
+        
+        # Remove trailing punctuation
+        ans = ans.rstrip('.,;:!?')
+        
+        # Handle "The answer is X" pattern that survived
+        if ans.lower().startswith('answer is '):
+            ans = ans[10:].strip()
+        
+        # If answer is too long (>15 words), it's probably an explanation
+        # Try to extract key entity or phrase
+        words = ans.split()
+        if len(words) > 15:
+            # Look for capitalized sequences (entity names)
+            entities = re.findall(r'\b[A-Z][a-z]+(?:\s+[A-Z][a-z]+)*\b', ans)
+            if entities:
+                # Return longest entity found
+                ans = max(entities, key=len)
+            else:
+                # Just take first 5 words as fallback
+                ans = ' '.join(words[:5])
+        
+        return ans.strip()
     
     def get_metrics(self) -> dict:
         return {
