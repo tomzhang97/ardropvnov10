@@ -13,6 +13,7 @@ Example usage:
 
   python experiments/aggregate_eval_shards.py \
       --root_dir results/hotpotqa_full \
+      --reference_data hotpotQA/hotpot_dev_distractor_v1.json \
       --out_dir results/hotpotqa_full_agg
 """
 
@@ -20,7 +21,8 @@ import os
 import json
 import time
 import argparse
-from typing import Dict, List, Any, Tuple
+from pathlib import Path
+from typing import Dict, List, Any, Tuple, Optional
 
 import numpy as np
 
@@ -142,11 +144,117 @@ def compute_significance_tests(all_results: Dict[str, Dict[str, Dict[str, Any]]]
     return tests
 
 
+def analyze_answer_changes(
+    all_results: Dict[str, Dict[str, Dict[str, Any]]],
+    baseline: str = "agentragdrop_none",
+    variants: Optional[List[str]] = None,
+) -> Dict[str, Dict[str, float]]:
+    """Summarize how often pruning variants change answers vs. the baseline."""
+
+    if variants is None:
+        variants = ["agentragdrop_lazy_greedy", "agentragdrop_risk_controlled"]
+
+    if baseline not in all_results:
+        return {}
+
+    base_map = all_results[baseline]
+    report: Dict[str, Dict[str, float]] = {}
+
+    for variant in variants:
+        if variant not in all_results:
+            continue
+
+        variant_map = all_results[variant]
+        common = sorted(set(base_map.keys()) & set(variant_map.keys()))
+        if not common:
+            continue
+
+        changed = improved = regressed = tied = rescued = broken = 0
+
+        for key in common:
+            base_row = base_map[key]
+            var_row = variant_map[key]
+
+            base_answer = base_row.get("pred_answer", base_row.get("answer", ""))
+            var_answer = var_row.get("pred_answer", var_row.get("answer", ""))
+
+            base_f1 = float(base_row.get("f1", 0.0))
+            var_f1 = float(var_row.get("f1", 0.0))
+
+            if var_answer != base_answer:
+                changed += 1
+                if var_f1 > base_f1:
+                    improved += 1
+                    if base_f1 == 0.0 and var_f1 > 0.0:
+                        rescued += 1
+                elif var_f1 < base_f1:
+                    regressed += 1
+                    if base_f1 > 0.0 and var_f1 == 0.0:
+                        broken += 1
+                else:
+                    tied += 1
+
+        total = len(common)
+        report[variant] = {
+            "common": total,
+            "changed": changed,
+            "changed_pct": (changed / total) if total else 0.0,
+            "improved": improved,
+            "regressed": regressed,
+            "tied_delta": tied,
+            "rescued_from_zero": rescued,
+            "broke_correct": broken,
+        }
+
+    return report
+
+
+def compute_identical_across_systems(
+    all_results: Dict[str, Dict[str, Dict[str, Any]]],
+    systems: List[str]
+) -> Dict[str, float]:
+    """Compute how many examples have identical answers across systems."""
+
+    present = [sys for sys in systems if sys in all_results]
+    if len(present) < 2:
+        return {}
+
+    key_sets = [set(all_results[sys].keys()) for sys in present]
+    common = sorted(set.intersection(*key_sets)) if key_sets else []
+
+    identical = 0
+    for key in common:
+        answers = {
+            sys: all_results[sys][key].get("pred_answer", all_results[sys][key].get("answer", ""))
+            for sys in present
+        }
+        if len(set(answers.values())) == 1:
+            identical += 1
+
+    total = len(common)
+    return {
+        "systems": present,
+        "common": total,
+        "identical": identical,
+        "identical_pct": (identical / total) if total else 0.0,
+    }
+
+
 # ---------------------------------------------------------------------------
 # Aggregation logic
 # ---------------------------------------------------------------------------
 
-def load_all_results(root_dir: str) -> Tuple[Dict[str, Dict[str, Dict[str, Any]]], List[str]]:
+def _result_key(row: Dict[str, Any]) -> Optional[str]:
+    """Derive a stable identifier for a prediction row."""
+
+    for key in ("example_id", "_id", "id", "question"):
+        val = row.get(key)
+        if isinstance(val, str) and val.strip():
+            return val
+    return None
+
+
+def load_all_results(root_dir: str) -> Tuple[Dict[str, Dict[str, Dict[str, Any]]], List[str], Dict[str, List[str]]]:
     """
     root_dir: directory containing shard subdirs (e.g. results/hotpotqa_full)
 
@@ -160,6 +268,7 @@ def load_all_results(root_dir: str) -> Tuple[Dict[str, Dict[str, Dict[str, Any]]
     ]
 
     all_results: Dict[str, Dict[str, Dict[str, Any]]] = {}
+    duplicates: Dict[str, List[str]] = {}
 
     for shard in shard_dirs:
         shard_path = os.path.join(root_dir, shard)
@@ -179,16 +288,87 @@ def load_all_results(root_dir: str) -> Tuple[Dict[str, Dict[str, Dict[str, Any]]
                     line = line.strip()
                     if not line:
                         continue
-                    r = json.loads(line)
-                    q = r.get("question")
-                    if q is None:
-                        # Skip if no question key
+                    row = json.loads(line)
+                    key = _result_key(row)
+                    if key is None:
                         continue
-                    # If duplicate question shows up, last one wins; this should
-                    # not happen if shards are disjoint.
-                    all_results[system_name][q] = r
+                    if key in all_results[system_name]:
+                        duplicates.setdefault(system_name, []).append(key)
+                    all_results[system_name][key] = row
 
-    return all_results, shard_dirs
+    return all_results, shard_dirs, duplicates
+
+
+def compute_coverage(
+    all_results: Dict[str, Dict[str, Dict[str, Any]]],
+    expected_ids: Optional[List[str]] = None,
+) -> Tuple[Dict[str, Dict[str, Any]], int]:
+    """
+    Compute coverage information for each system.
+
+    Returns:
+        coverage dict, expected_total
+    """
+
+    if expected_ids is not None:
+        expected_set = set(expected_ids)
+    else:
+        expected_set = set()
+        for q2r in all_results.values():
+            expected_set.update(q2r.keys())
+
+    expected_total = len(expected_set)
+
+    coverage: Dict[str, Dict[str, Any]] = {}
+    for sys_name, q2r in all_results.items():
+        completed = set(q2r.keys())
+        missing = sorted(expected_set - completed)
+        coverage[sys_name] = {
+            "completed": len(completed),
+            "expected": expected_total,
+            "missing": len(missing),
+            "missing_examples": missing[:10],
+            "coverage_pct": (len(completed) / expected_total * 100.0) if expected_total else 100.0,
+        }
+
+    return coverage, expected_total
+
+
+def load_reference_ids(reference_path: str) -> List[str]:
+    """Load canonical example ids from a reference dataset."""
+
+    path = Path(reference_path)
+    ids: List[str] = []
+
+    if path.suffix in {".jsonl", ".ndjson"}:
+        with path.open("r", encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if not line:
+                    continue
+                row = json.loads(line)
+                if isinstance(row, dict):
+                    key = _result_key(row)
+                    if key:
+                        ids.append(key)
+        return ids
+
+    with path.open("r", encoding="utf-8") as f:
+        data = json.load(f)
+
+    if isinstance(data, dict) and "data" in data:
+        data = data["data"]
+
+    if not isinstance(data, list):
+        raise ValueError(f"Unsupported reference data format: {reference_path}")
+
+    for row in data:
+        if not isinstance(row, dict):
+            continue
+        key = _result_key(row)
+        if key:
+            ids.append(key)
+    return ids
 
 
 def print_summary_table(summary: Dict[str, Dict[str, float]], sig_tests: Dict[str, Dict[str, float]]):
@@ -237,6 +417,12 @@ def main():
         default="",
         help="Directory to write aggregate summary.json (default: <root_dir>/aggregate)",
     )
+    parser.add_argument(
+        "--reference_data",
+        type=str,
+        default="",
+        help="Optional path to the canonical dataset to verify shard coverage",
+    )
 
     args = parser.parse_args()
 
@@ -251,13 +437,23 @@ def main():
     print(f"Out dir  : {out_dir}")
     print("=" * 70 + "\n")
 
-    all_results, shard_dirs = load_all_results(root_dir)
+    all_results, shard_dirs, duplicates = load_all_results(root_dir)
     if not all_results:
         print(f"[ERROR] No *_results.jsonl files found under {root_dir}")
         return
 
+    reference_ids: Optional[List[str]] = None
+    if args.reference_data:
+        reference_ids = load_reference_ids(args.reference_data)
+
     summary = compute_summary(all_results)
     sig_tests = compute_significance_tests(all_results)
+    coverage, expected_total = compute_coverage(all_results, reference_ids)
+    change_report = analyze_answer_changes(all_results)
+    identical_report = compute_identical_across_systems(
+        all_results,
+        ["agentragdrop_none", "agentragdrop_lazy_greedy", "agentragdrop_risk_controlled"],
+    )
 
     # Save aggregate summary
     out_path = os.path.join(out_dir, "summary.json")
@@ -268,6 +464,11 @@ def main():
         "systems": sorted(all_results.keys()),
         "summary": summary,
         "significance_tests": sig_tests,
+        "coverage": coverage,
+        "expected_total": expected_total,
+        "duplicates": duplicates,
+        "answer_change_analysis": change_report,
+        "scheduler_identical_stats": identical_report,
         "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
     }
     with open(out_path, "w", encoding="utf-8") as f:
@@ -276,6 +477,54 @@ def main():
 
     # Pretty-print table
     print_summary_table(summary, sig_tests)
+
+    if duplicates:
+        print("\n[WARNING] Duplicate result ids detected:")
+        for sys_name, dup_ids in duplicates.items():
+            sample = ", ".join(dup_ids[:5])
+            more = "" if len(dup_ids) <= 5 else f" (+{len(dup_ids) - 5} more)"
+            print(f"  {sys_name}: {sample}{more}")
+
+    if coverage:
+        print("\n" + "=" * 90)
+        print("COVERAGE SUMMARY")
+        print("=" * 90)
+        for sys_name, info in sorted(coverage.items()):
+            print(
+                f"{sys_name:<30} {info['completed']:>4}/{info['expected']:<4} "
+                f"({info['coverage_pct']:.1f}% complete)"
+            )
+            if info["missing"]:
+                sample = ", ".join(info["missing_examples"])
+                print(f"    Missing {info['missing']} examples. Sample: {sample}")
+
+    if change_report:
+        print("\n" + "=" * 90)
+        print("SCHEDULER ANSWER CHANGE ANALYSIS")
+        print("=" * 90)
+        for sys_name, info in change_report.items():
+            pct = info["changed_pct"] * 100.0 if info["common"] else 0.0
+            print(
+                f"{sys_name:<30} changed {info['changed']}/{info['common']} ({pct:.1f}%) | "
+                f"improved={info['improved']} regressed={info['regressed']} tied_delta={info['tied_delta']}"
+            )
+            if info["rescued_from_zero"] or info["broke_correct"]:
+                print(
+                    f"    rescued_from_zero={info['rescued_from_zero']} "
+                    f"broke_correct={info['broke_correct']}"
+                )
+
+    if identical_report:
+        pct = identical_report["identical_pct"] * 100.0 if identical_report["common"] else 0.0
+        print("\n" + "=" * 90)
+        print("IDENTICAL ANSWERS ACROSS SCHEDULERS")
+        print("=" * 90)
+        systems_str = ", ".join(identical_report["systems"])
+        print(
+            f"{systems_str}: {identical_report['identical']}/{identical_report['common']} "
+            f"({pct:.1f}% identical predictions)"
+        )
+
 
 
 if __name__ == "__main__":
