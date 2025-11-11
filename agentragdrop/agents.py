@@ -36,7 +36,7 @@ class RetrieverAgent:
 
         return {
             "hits": hits, 
-            "evidence": evidence, 
+            "evidence": evidence,  
             "tokens_est": 0,
             "latency_ms": t_elapsed * 1000
         }

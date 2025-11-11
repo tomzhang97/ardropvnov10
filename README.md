@@ -1,9 +1,5 @@
 # 🔬 AgentRAG-Drop: Provably-Bounded Multi-Agent RAG
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
-[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
-
 **AgentRAG-Drop** is a research framework for budget-constrained multi-agent RAG with **provable approximation guarantees** and **risk-controlled execution**.
 
 ## 🎯 Key Contributions
@@ -414,22 +410,9 @@ docker run --gpus all \
 
 ---
 
-## 📖 Citation
-
-```bibtex
-@inproceedings{agentragdrop2025,
-  title={AgentRAG-Drop: Budget-Constrained Multi-Agent RAG with Provable Approximation Guarantees},
-  author={Your Name and Collaborators},
-  booktitle={Proceedings of VLDB 2025},
-  year={2025}
-}
-```
 
 ---
 
-## 🤝 Contributing
-
-We welcome contributions! See `CONTRIBUTING.md` for guidelines.
 
 **Areas for improvement:**
 - Learned utility functions (replace heuristic facet extraction)
