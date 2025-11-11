@@ -128,7 +128,7 @@ class EvalConfig:
     # Pruning
     lambda_redundancy: float = 0.3
     risk_budget_alpha: float = 0.05
-    budget_tokens: int = 0  # 0 = unlimited
+    budget_tokens: int = 600  # 0 = unlimited
 
     # Reproducibility
     seed: int = 42
@@ -787,7 +787,7 @@ def main():
     parser.add_argument("--retrieval_k", type=int, default=3)
     parser.add_argument("--lambda_redundancy", type=float, default=0.3)
     parser.add_argument("--risk_budget_alpha", type=float, default=0.05)
-    parser.add_argument("--budget_tokens", type=int, default=0, help="Token budget (0=unlimited)")
+    parser.add_argument("--budget_tokens", type=int, default=600, help="Token budget (0=unlimited)")
     parser.add_argument("--seed", type=int, default=42)
 
     # Sharded master mode

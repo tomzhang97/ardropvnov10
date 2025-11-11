@@ -72,7 +72,7 @@ class ExperimentConfig:
     risk_budget_alpha: float = 0.05
     
     # Budget
-    budget_tokens: int = 0
+    budget_tokens: int = 600
     budget_time_ms: int = 0
     
     # Evaluation

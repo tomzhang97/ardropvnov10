@@ -444,7 +444,7 @@ class LazyGreedyPruner:
         self, 
         candidate_agents: List[str], 
         context: Dict[str, Any],
-        budget_tokens: Optional[int] = None
+        budget_tokens: Optional[int] = 600
     ) -> List[str]:
         """
         Main pruning decision using lazy greedy.
@@ -702,7 +702,7 @@ class RiskControlledPruner:
         self,
         candidate_agents: List[str],
         context: Dict[str, Any],
-        budget_tokens: Optional[int] = None
+        budget_tokens: Optional[int] = 600
     ) -> List[str]:
         """
         Pruning with risk control.
@@ -1034,7 +1034,7 @@ def test_lazy_greedy():
     pruner = LazyGreedyPruner()
     candidates = ["retriever", "validator", "critic", "composer"]
     
-    pruned = pruner.decide(candidates, context, budget_tokens=200)
+    pruned = pruner.decide(candidates, context, budget_tokens=600)
     selected = [a for a in candidates if a not in pruned]
     
     print(f"Selected agents: {selected}")
@@ -1080,7 +1080,7 @@ def test_risk_control():
     pruner = RiskControlledPruner(risk_budget_alpha=0.05)
     candidates = ["retriever", "validator", "critic", "composer"]
     
-    pruned = pruner.decide(candidates, context, budget_tokens=150)
+    pruned = pruner.decide(candidates, context, budget_tokens=600)
     selected = [a for a in candidates if a not in pruned]
     
     print(f"Selected agents: {selected}")
@@ -1132,7 +1132,7 @@ def test_approximation_ratio():
     agents = ["retriever", "validator", "composer"]  # 3 agents → 2^3 = 8 subsets
     
     # Greedy solution
-    pruned = pruner.decide(agents, context, budget_tokens=200)
+    pruned = pruner.decide(agents, context, budget_tokens=600)
     greedy_selected = set(agents) - set(pruned)
     greedy_utility = utility_fn.compute(greedy_selected, context)
     
