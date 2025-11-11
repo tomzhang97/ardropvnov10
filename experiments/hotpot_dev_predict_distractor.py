@@ -3,6 +3,7 @@ import os, json, argparse, numpy as np, time, sys
 from typing import List, Tuple
 from sentence_transformers import SentenceTransformer
 from agentragdrop.agents import RAGComposerAgent
+from agentragdrop.answer_cleaning import clean_answer
 from agentragdrop.llm import get_llm
 from tqdm import tqdm
 import re, string
@@ -10,29 +11,6 @@ import re, string
 # Import central configuration
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 import config
-
-def clean_answer(ans: str) -> str:
-    """Clean and normalize answer for HotpotQA evaluation."""
-    ans = ans.strip()
-    
-    prefixes = [
-        "Answer:", "A:", "The answer is", "It is", "They are",
-        "According to the context", "Based on", "The", "Answer is"
-    ]
-    for prefix in prefixes:
-        if ans.lower().startswith(prefix.lower()):
-            ans = ans[len(prefix):].strip()
-            if ans.startswith(':'):
-                ans = ans[1:].strip()
-    
-    ans = re.sub(r'\[\d+\]', '', ans)
-    ans = ans.strip('"\'')
-    ans = ans.split('.')[0].split('\n')[0].strip()
-    
-    while ans and ans[-1] in '.,;:!?':
-        ans = ans[:-1].strip()
-    
-    return ans
 
 def detect_answer_type(question: str) -> str:
     """Detect expected answer type from question."""
@@ -305,7 +283,7 @@ def main():
         t_generation_start = time.perf_counter()
         out = composer(question=q, evidence=evidence_texts)
         raw_ans = (out.get("answer") or "").strip()
-        ans = clean_answer(raw_ans)
+        ans = clean_answer(raw_ans, q)
         t_generation = time.perf_counter() - t_generation_start
         
         if use_answer_type:

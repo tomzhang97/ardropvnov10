@@ -1,7 +1,7 @@
 from .utils import token_estimate
 from .rag import make_retriever
+from .answer_cleaning import clean_answer
 from typing import Optional, List, Dict, Any
-import re
 import time
 
 class AgentResult(dict):
@@ -144,13 +144,15 @@ class ComposerAgent:
             "Answer:"
         )
         ans = self.llm.generate(prompt, max_new_tokens=128)
-        
+        cleaned = clean_answer(ans, question)
+
         t_elapsed = time.perf_counter() - t_start
         self.total_calls += 1
         self.total_latency += t_elapsed
-        
+
         return AgentResult({
-            "answer": ans.strip(), 
+            "answer": cleaned,
+            "raw_answer": ans.strip(),
             "tokens_est": token_estimate(prompt + ans),
             "latency_ms": t_elapsed * 1000
         })
@@ -207,16 +209,17 @@ A: 1964
             "A:"
         )
         
-        ans = self.llm.generate(prompt, max_new_tokens=32)
-        ans = self._clean_answer(ans)
-        
+        raw_ans = self.llm.generate(prompt, max_new_tokens=32)
+        ans = self._clean_answer(raw_ans, question)
+
         t_elapsed = time.perf_counter() - t_start
         self.total_calls += 1
         self.total_latency += t_elapsed
-        
+
         return AgentResult({
-            "answer": ans, 
-            "tokens_est": token_estimate(prompt + ans),
+            "answer": ans,
+            "raw_answer": raw_ans.strip(),
+            "tokens_est": token_estimate(prompt + raw_ans),
             "latency_ms": t_elapsed * 1000
         })
     
