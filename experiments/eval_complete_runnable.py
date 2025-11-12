@@ -49,6 +49,7 @@ try:
     from agentragdrop.pruning_formal import (
         LazyGreedyPruner, RiskControlledPruner, ExecutionCache
     )
+    from agentragdrop.answer_cleaning import clean_answer
 except ImportError as e:
     print(f"Error importing agentragdrop: {e}")
     print("Make sure you're running from the project root directory")
@@ -77,7 +78,7 @@ class SimpleVanillaRAG:
     
     def answer(self, question: str) -> Dict[str, Any]:
         t_start = time.perf_counter()
-        
+
         # --- FIX: support both new (invoke) and old (get_relevant_documents) APIs ---
         if hasattr(self.retriever, "invoke"):
             docs = self.retriever.invoke(question)
@@ -89,19 +90,23 @@ class SimpleVanillaRAG:
         # ---------------------------------------------------------------------------
 
         evidence = [d.page_content for d in docs[:self.k]]
-        
+
         prompt = f"Answer the question using the context.\n\nQuestion: {question}\n\nContext:\n"
         prompt += "\n".join(f"{i+1}. {e[:300]}" for i, e in enumerate(evidence))
         prompt += "\n\nAnswer:"
-        
-        answer = self.llm.generate(prompt, max_new_tokens=64)
-        
+
+        raw_answer = self.llm.generate(prompt, max_new_tokens=64)
+        cleaned = clean_answer(raw_answer, question)
+
         return {
-            "answer": answer.strip(),
-            "tokens": len(prompt.split()) + len(answer.split()),
+            "answer": cleaned,
+            "raw_answer": raw_answer.strip(),
+            "tokens": len(prompt.split()) + len(raw_answer.split()),
             "latency_ms": (time.perf_counter() - t_start) * 1000,
             "agents_executed": ["retriever", "composer"],
-            "agents_pruned": []
+            "agents_pruned": [],
+            "retrieved_context": evidence,
+            "evidence": evidence
         }
 
 
@@ -434,6 +439,7 @@ class Evaluator:
         for ex in tqdm(self.dataset, desc=system_name):
             question = ex.get("question", "")
             gold_answer = ex.get("answer", "")
+            example_id = ex.get("_id") or ex.get("id")
 
             if not question or not gold_answer:
                 continue
@@ -442,19 +448,23 @@ class Evaluator:
                 output = system_fn(question)
 
                 pred_answer = output.get("answer", "")
+                raw_pred = output.get("raw_answer", pred_answer)
                 em = compute_em(pred_answer, gold_answer)
                 f1 = compute_f1(pred_answer, gold_answer)
 
                 results.append({
+                    "example_id": example_id,
                     "question": question,
                     "gold_answer": gold_answer,
                     "pred_answer": pred_answer,
+                    "raw_pred_answer": raw_pred,
                     "em": em,
                     "f1": f1,
                     "tokens": output.get("tokens", 0),
                     "latency_ms": output.get("latency_ms", 0),
                     "agents_executed": output.get("agents_executed", []),
-                    "agents_pruned": output.get("agents_pruned", [])
+                    "agents_pruned": output.get("agents_pruned", []),
+                    "retrieved_context": output.get("retrieved_context", [])
                 })
             except Exception as e:
                 print(f"\nError on question: {question[:50]}... - {e}")
@@ -477,10 +487,13 @@ class Evaluator:
         # 1. Vanilla RAG
         print("\n[1/4] Vanilla RAG")
         vanilla = SimpleVanillaRAG(self.retriever, self.llm, k=self.config.retrieval_k)
-        all_results["vanilla_rag"] = self.evaluate_system(
+        vanilla_results = self.evaluate_system(
             "Vanilla RAG",
             lambda q: vanilla.answer(q)
         )
+        if not vanilla_results:
+            raise RuntimeError("Vanilla RAG produced no results. Check logs for errors.")
+        all_results["vanilla_rag"] = vanilla_results
 
         # If we only want Vanilla, stop here
         if only_vanilla:
@@ -517,6 +530,7 @@ class Evaluator:
                 latency_ms = (time.perf_counter() - t_start) * 1000
 
                 answer = outputs.get("composer", {}).get("answer", "")
+                raw_answer = outputs.get("composer", {}).get("raw_answer", answer)
                 tokens = sum(
                     o.get("tokens_est", 0)
                     for o in outputs.values()
@@ -532,16 +546,21 @@ class Evaluator:
 
                 return {
                     "answer": answer,
+                    "raw_answer": raw_answer,
                     "tokens": tokens,
                     "latency_ms": latency_ms,
                     "agents_executed": executed,
-                    "agents_pruned": pruned
+                    "agents_pruned": pruned,
+                    "retrieved_context": outputs.get("retriever", {}).get("evidence", [])
                 }
 
-            all_results[f"agentragdrop_{pruning}"] = self.evaluate_system(
+            system_results = self.evaluate_system(
                 f"AgentRAG-Drop ({pruning})",
                 system_fn
             )
+            if not system_results:
+                raise RuntimeError(f"AgentRAG-Drop ({pruning}) produced no results. Check logs for errors.")
+            all_results[f"agentragdrop_{pruning}"] = system_results
 
         # Compute statistics
         print("\n" + "="*70)

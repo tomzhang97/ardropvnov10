@@ -1,7 +1,41 @@
 
-import hashlib, time, random
-from typing import List, Dict, Any, Tuple
-from .placement import placement_for, DEFAULT_SITES, net_cost
+import hashlib
+import random
+import time
+import warnings
+from typing import Any, Dict, List, Tuple
+
+try:
+    from .placement import DEFAULT_SITES, net_cost, placement_for, Site
+except ModuleNotFoundError:
+    # Older snapshots may not include the placement helper module.  Fall back to a
+    # lightweight in-module definition so evaluation scripts can still run.
+    from dataclasses import dataclass
+
+    warnings.warn(
+        "agentragdrop.placement not available; using default single-node placement",
+        RuntimeWarning,
+    )
+
+    @dataclass(frozen=True)
+    class Site:  # type: ignore[override]
+        name: str
+        bw_mbps: Dict[str, float]
+        rtt_ms: Dict[str, float]
+
+    DEFAULT_SITES = {
+        "vecdb": Site("vecdb", bw_mbps={"llm-gpu": 1000.0}, rtt_ms={"llm-gpu": 1.0}),
+        "llm-gpu": Site("llm-gpu", bw_mbps={"vecdb": 1000.0}, rtt_ms={"vecdb": 1.0}),
+    }
+
+    def net_cost(bytes_in: int, src: Site, dst: Site) -> float:
+        if src.name == dst.name:
+            return 0.0
+        bw = max(1.0, src.bw_mbps.get(dst.name, 100.0))
+        return (bytes_in / (bw * 125000.0)) * 1000.0 + dst.rtt_ms.get(src.name, 1.0)
+
+    def placement_for(node_name: str) -> str:
+        return "vecdb" if node_name == "retriever" else "llm-gpu"
 
 class ExecutionCache:
     def __init__(self):
