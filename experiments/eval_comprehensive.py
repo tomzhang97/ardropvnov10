@@ -63,7 +63,7 @@ class ExperimentConfig:
     
     # Execution
     agent_order: str = "rvcc"
-    retrieval_k: int = 3
+    retrieval_k: int = 6
     
     # Pruning
     utility_alpha: float = 0.6
@@ -651,7 +651,7 @@ def main():
     
     # Execution
     parser.add_argument("--agent_order", default="rvcc")
-    parser.add_argument("--retrieval_k", type=int, default=3)
+    parser.add_argument("--retrieval_k", type=int, default=6)
     
     # Pruning
     parser.add_argument("--utility_alpha", type=float, default=0.6)

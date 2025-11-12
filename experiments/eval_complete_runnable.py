@@ -128,7 +128,7 @@ class EvalConfig:
 
     # Evaluation
     limit: int = 0  # 0 = all examples
-    retrieval_k: int = 3
+    retrieval_k: int = 6
 
     # Pruning
     lambda_redundancy: float = 0.3
@@ -803,7 +803,7 @@ def main():
     parser.add_argument("--embed_model", default="sentence-transformers/all-MiniLM-L6-v2")
     parser.add_argument("--device", type=int, default=0, help="GPU device (-1 for CPU)")
     parser.add_argument("--limit", type=int, default=0, help="Limit examples (0=all)")
-    parser.add_argument("--retrieval_k", type=int, default=3)
+    parser.add_argument("--retrieval_k", type=int, default=6)
     parser.add_argument("--lambda_redundancy", type=float, default=0.3)
     parser.add_argument("--risk_budget_alpha", type=float, default=0.05)
     parser.add_argument("--budget_tokens", type=int, default=0, help="Token budget (0=unlimited)")

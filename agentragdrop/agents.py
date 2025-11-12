@@ -8,7 +8,7 @@ class AgentResult(dict):
     pass
 
 class RetrieverAgent:
-    def __init__(self, data_path, embed_model="sentence-transformers/all-MiniLM-L6-v2", top_k=3):
+    def __init__(self, data_path, embed_model="sentence-transformers/all-MiniLM-L6-v2", top_k=6):
         self.retriever = make_retriever(data_path, embed_model=embed_model, k=top_k)
         self.vs = self.retriever.vectorstore
         self.top_k = top_k
@@ -64,13 +64,22 @@ class ValidatorAgent:
             "Is the evidence relevant to the question? Answer YES or NO:"
         )
         out = self.llm.generate(prompt, max_new_tokens=16)
-        
+        raw = out.strip()
+        verdict_lower = raw.lower()
+        if verdict_lower.startswith("yes"):
+            verdict = "yes"
+        elif verdict_lower.startswith("no"):
+            verdict = "no"
+        else:
+            verdict = "unknown"
+
         t_elapsed = time.perf_counter() - t_start
         self.total_calls += 1
         self.total_latency += t_elapsed
-        
+
         return AgentResult({
-            "verdict": out.strip(), 
+            "verdict": verdict,
+            "verdict_raw": raw,
             "tokens_est": token_estimate(prompt + out),
             "latency_ms": t_elapsed * 1000
         })
@@ -108,13 +117,23 @@ class CriticAgent:
             tokens = token_estimate(prompt + notes)
         else:
             tokens = token_estimate(notes)
-        
+
+        raw_notes = notes.strip()
+        notes_lower = raw_notes.lower()
+        if not raw_notes:
+            label = "ok"
+        elif any(term in notes_lower for term in ("inconsistent", "conflict", "contradict", "disagree", "mismatch")):
+            label = "conflict"
+        else:
+            label = "ok"
+
         t_elapsed = time.perf_counter() - t_start
         self.total_calls += 1
         self.total_latency += t_elapsed
 
         return AgentResult({
-            "notes": notes.strip(), 
+            "notes": label,
+            "notes_raw": raw_notes,
             "tokens_est": tokens,
             "latency_ms": t_elapsed * 1000
         })
@@ -135,13 +154,15 @@ class ComposerAgent:
     def __call__(self, question, evidence: List[str], validator=None, critic=None):
         t_start = time.perf_counter()
         
+        validator_flag = (validator or {}).get("verdict", "unknown") if isinstance(validator, dict) else "unknown"
+        critic_flag = (critic or {}).get("notes", "ok") if isinstance(critic, dict) else "ok"
         prompt = (
             "You are the Composer. Use only the evidence. Return a SHORT PHRASE copied verbatim from the evidence when possible. Do NOT explain.\n"
             "If the answer cannot be determined from the evidence, output exactly: unknown.\n"
             f"Question: {question}\n"
             "Evidence:\n" + "\n".join(f"- {e[:400]}" for e in (evidence or [])[:4]) + "\n"
-            f"Validator Verdict: {getattr(validator, 'verdict', 'N/A')}\n"
-            f"Critic Notes: {getattr(critic, 'notes', 'N/A')}\n"
+            f"Validator Verdict: {validator_flag}\n"
+            f"Critic Notes: {critic_flag}\n"
             "Answer:"
         )
         ans = self.llm.generate(prompt, max_new_tokens=128)

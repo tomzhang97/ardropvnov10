@@ -239,18 +239,24 @@ class SubmodularUtility:
         context: Dict[str, Any]
     ) -> List[str]:
         """Gather evidence from executed agents."""
-        all_evidence = []
-        
+        all_evidence: List[str] = []
+
+        # Global evidence mirror (ExecutionDAG mirrors retriever output here)
+        base_evidence = context.get("evidence", [])
+        if isinstance(base_evidence, list):
+            all_evidence.extend(base_evidence)
+
         for agent in executed_agents:
             if agent == "retriever":
-                # Retriever provides main evidence
-                all_evidence.extend(context.get("evidence", []))
+                retriever_payload = context.get("retriever", {}) if isinstance(context, dict) else {}
+                retriever_evidence = retriever_payload.get("evidence", [])
+                if isinstance(retriever_evidence, list):
+                    all_evidence.extend(retriever_evidence)
             elif agent in context and isinstance(context[agent], dict):
-                # Other agents may have evidence
                 agent_evidence = context[agent].get("evidence", [])
-                if agent_evidence:
+                if isinstance(agent_evidence, list):
                     all_evidence.extend(agent_evidence)
-        
+
         return all_evidence
     
     def _compute_coverage(self, evidence_list: List[str]) -> float:
@@ -798,17 +804,26 @@ class RiskControlledPruner:
         requirements = []
         
         for facet in required_facets:
-            covering_agents = set()
-            
-            # Retriever covers all content facets
-            if facet.facet_id.startswith(("entity_", "keyword_", "type_")):
+            covering_agents: Set[str] = set()
+            facet_id = facet.facet_id
+
+            if facet_id.startswith("entity_") or facet_id.startswith("keyword_"):
                 if "retriever" in candidate_agents:
                     covering_agents.add("retriever")
-            
-            # Validator helps verify relevance
-            if "validator" in candidate_agents:
-                covering_agents.add("validator")
-            
+
+            if facet_id.startswith("type_"):
+                if "retriever" in candidate_agents:
+                    covering_agents.add("retriever")
+                if facet_id == "type_boolean":
+                    if "validator" in candidate_agents:
+                        covering_agents.add("validator")
+                elif facet_id in {"type_number", "type_time"}:
+                    if "critic" in candidate_agents:
+                        covering_agents.add("critic")
+
+            if not covering_agents and "retriever" in candidate_agents:
+                covering_agents.add("retriever")
+
             requirements.append(FacetCoverageRequirement(
                 facet=facet,
                 covering_agents=covering_agents,
