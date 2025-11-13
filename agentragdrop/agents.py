@@ -4,6 +4,64 @@ from .answer_cleaning import clean_answer
 from typing import Optional, List, Dict, Any
 import time
 
+MAX_CONTEXT_ITEMS = 4
+MAX_SNIPPET_CHARS = 180
+MAX_NEW_TOKENS = 16
+
+_FEW_SHOT_EXAMPLES = (
+    "Examples of good answers:\n\n"
+    "Q: What government position was held by the woman who portrayed Corliss Archer in the film Kiss and Tell?\n"
+    "Context: 1. Shirley Temple held the position of U.S. Ambassador... 2. Kiss and Tell starred Shirley Temple as Corliss Archer...\n"
+    "A: U.S. Ambassador\n\n"
+    "Q: Were Scott Derrickson and Ed Wood of the same nationality?\n"
+    "Context: 1. Scott Derrickson is an American filmmaker. 2. Ed Wood was an American filmmaker...\n"
+    "A: yes\n\n"
+    "Q: What year was the creator of Vampire: The Masquerade born?\n"
+    "Context: 1. Mark Rein-Hagen created Vampire: The Masquerade. 2. Mark Rein-Hagen was born in 1964...\n"
+    "A: 1964\n\n"
+)
+
+
+def _format_evidence_snippets(
+    evidence: Optional[List[str]],
+    *,
+    limit: int = MAX_CONTEXT_ITEMS,
+    snippet_chars: int = MAX_SNIPPET_CHARS,
+) -> str:
+    """Format evidence snippets for the composer prompts."""
+
+    if not evidence:
+        return "1. No supporting context available."
+
+    formatted: List[str] = []
+    for idx, snippet in enumerate(evidence[:limit]):
+        if not isinstance(snippet, str):
+            snippet = str(snippet)
+        snippet = snippet.strip()
+        if not snippet:
+            continue
+        formatted.append(f"{idx + 1}. {snippet[:snippet_chars]}")
+
+    if not formatted:
+        return "1. No supporting context available."
+
+    return "\n".join(formatted)
+
+
+def _build_direct_answer_prompt(question: str, evidence: Optional[List[str]]) -> str:
+    ctx_block = _format_evidence_snippets(evidence)
+    return (
+        "You are answering questions using provided context. "
+        "Give ONLY the direct answer – a name, number, yes/no, or short phrase. "
+        "Do NOT write explanations.\n"
+        "If the answer cannot be determined from the context, output exactly: unknown.\n\n"
+        f"{_FEW_SHOT_EXAMPLES}"
+        "Now answer this question:\n\n"
+        f"Q: {question}\n"
+        f"Context:\n{ctx_block}\n"
+        "A:"
+    )
+
 class AgentResult(dict):
     pass
 
@@ -161,28 +219,8 @@ class ComposerAgent:
     def __call__(self, question, evidence: List[str], validator=None, critic=None):
         t_start = time.perf_counter()
 
-        prompt = (
-            "You are answering questions using provided context. "
-            "Give ONLY the direct answer — a name, number, yes/no, or a very short phrase. "
-            "Do NOT write explanations or full sentences.\n"
-            "If the answer cannot be determined from the context, output exactly: unknown.\n\n"
-            "Examples of good answers:\n"
-            "Q: What government position was held by the woman who portrayed Corliss Archer in the film Kiss and Tell?\n"
-            "Context: 1. Shirley Temple held the position of U.S. Ambassador... 2. Kiss and Tell starred Shirley Temple as Corliss Archer...\n"
-            "A: U.S. Ambassador\n\n"
-            "Q: Were Scott Derrickson and Ed Wood of the same nationality?\n"
-            "Context: 1. Scott Derrickson is an American filmmaker. 2. Ed Wood was an American filmmaker...\n"
-            "A: yes\n\n"
-            "Q: What year was the creator of Vampire: The Masquerade born?\n"
-            "Context: 1. Mark Rein-Hagen created Vampire: The Masquerade. 2. Mark Rein-Hagen was born in 1964...\n"
-            "A: 1964\n\n"
-            f"Q: {question}\n"
-            "Context:\n" + "\n".join(
-                f"{i + 1}. {snippet[:280]}" for i, snippet in enumerate((evidence or [])[:6])
-            ) + "\n"
-            "A:"
-        )
-        ans = self.llm.generate(prompt, max_new_tokens=32)
+        prompt = _build_direct_answer_prompt(question, evidence)
+        ans = self.llm.generate(prompt, max_new_tokens=MAX_NEW_TOKENS)
         cleaned = clean_answer(ans, question)
         if not cleaned:
             cleaned = "unknown"
@@ -207,51 +245,35 @@ class ComposerAgent:
 
 class RAGComposerAgent:
     """Composer with few-shot examples for HotpotQA."""
+
     def __init__(self, retriever, llm):
         self.retriever = retriever
         self.llm = llm
         self.total_calls = 0
         self.total_latency = 0.0
-        
-        self.few_shot_examples = """Examples of good answers:
-
-Q: What government position was held by the woman who portrayed Corliss Archer in the film Kiss and Tell?
-Context: 1. Shirley Temple held the position of U.S. Ambassador... 2. Kiss and Tell starred Shirley Temple as Corliss Archer...
-A: U.S. Ambassador
-
-Q: Were Scott Derrickson and Ed Wood of the same nationality?
-Context: 1. Scott Derrickson is an American filmmaker. 2. Ed Wood was an American filmmaker...
-A: yes
-
-Q: What year was the creator of Vampire: The Masquerade born?
-Context: 1. Mark Rein-Hagen created Vampire: The Masquerade. 2. Mark Rein-Hagen was born in 1964...
-A: 1964
-
-"""
 
     def __call__(self, question, evidence=None, **kwargs):
         t_start = time.perf_counter()
-        
-        if not evidence:
-            if self.retriever:
+
+        evidence_list: List[str] = []
+        if evidence:
+            evidence_list = list(evidence)
+        elif self.retriever:
+            docs = []
+            if hasattr(self.retriever, "invoke"):
+                docs = self.retriever.invoke(question)
+            elif hasattr(self.retriever, "get_relevant_documents"):
                 docs = self.retriever.get_relevant_documents(question)
-                evidence = [d.page_content for d in docs]
-            else:
-                evidence = []
+            elif hasattr(self.retriever, "vectorstore"):
+                try:
+                    docs = self.retriever.vectorstore.similarity_search(question, k=MAX_CONTEXT_ITEMS + 2)
+                except Exception:
+                    docs = []
+            evidence_list = [getattr(d, "page_content", str(d)) for d in (docs or [])]
 
-        prompt = (
-            "You are answering questions using provided context. "
-            "Give ONLY the direct answer - a name, number, yes/no, or short phrase. "
-            "Do NOT write explanations or full sentences.\n"
-            "If the answer cannot be determined from the context, output exactly: unknown.\n\n"
-            + self.few_shot_examples +
-            "Now answer this question:\n\n"
-            f"Q: {question}\n"
-            "Context:\n" + "\n".join(f"{i+1}. {e[:250]}" for i, e in enumerate((evidence or [])[:6])) + "\n"
-            "A:"
-        )
+        prompt = _build_direct_answer_prompt(question, evidence_list)
 
-        raw_ans = self.llm.generate(prompt, max_new_tokens=32)
+        raw_ans = self.llm.generate(prompt, max_new_tokens=MAX_NEW_TOKENS)
         ans = self._clean_answer(raw_ans, question)
         if not ans:
             ans = "unknown"

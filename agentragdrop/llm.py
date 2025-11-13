@@ -16,7 +16,7 @@ class LocalLLM:
         model_name: str = "meta-llama/Meta-Llama-3-8B-Instruct",
         device: int = -1,
         max_new_tokens: int = 256,
-        temperature: float = 0.2,
+        temperature: float = 0.0,
         top_p: float = 0.95,
         do_sample: bool = False,
     ):

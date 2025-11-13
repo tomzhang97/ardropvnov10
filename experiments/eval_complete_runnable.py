@@ -47,9 +47,11 @@ try:
     from agentragdrop.agents import RetrieverAgent, ValidatorAgent, CriticAgent, RAGComposerAgent
     from agentragdrop.rag import make_retriever
     from agentragdrop.pruning_formal import (
-        LazyGreedyPruner, RiskControlledPruner, ExecutionCache
+        LazyGreedyPruner,
+        RiskControlledPruner,
+        ExecutionCache
     )
-    from agentragdrop.answer_cleaning import clean_answer
+    from agentragdrop.pruning import StaticPruner
 except ImportError as e:
     print(f"Error importing agentragdrop: {e}")
     print("Make sure you're running from the project root directory")
@@ -75,34 +77,32 @@ class SimpleVanillaRAG:
         self.retriever = retriever
         self.llm = llm
         self.k = k
-    
+        # Reuse the Hotpot-specific composer for consistent prompts
+        self.composer = RAGComposerAgent(retriever=None, llm=llm)
+
     def answer(self, question: str) -> Dict[str, Any]:
         t_start = time.perf_counter()
 
-        # --- FIX: support both new (invoke) and old (get_relevant_documents) APIs ---
         if hasattr(self.retriever, "invoke"):
             docs = self.retriever.invoke(question)
         elif hasattr(self.retriever, "get_relevant_documents"):
             docs = self.retriever.get_relevant_documents(question)
         else:
-            # Last-resort fallback to the private method, if needed
             docs = self.retriever._get_relevant_documents(question)
-        # ---------------------------------------------------------------------------
 
-        evidence = [d.page_content for d in docs[:self.k]]
+        evidence = [getattr(d, "page_content", str(d)) for d in docs[: self.k]]
 
-        prompt = f"Answer the question using the context.\n\nQuestion: {question}\n\nContext:\n"
-        prompt += "\n".join(f"{i+1}. {e[:300]}" for i, e in enumerate(evidence))
-        prompt += "\n\nAnswer:"
+        composer_result = self.composer(question, evidence=evidence)
+        answer = composer_result.get("answer", "unknown")
+        raw_answer = composer_result.get("raw_answer", answer)
 
-        raw_answer = self.llm.generate(prompt, max_new_tokens=64)
-        cleaned = clean_answer(raw_answer, question)
+        latency_ms = (time.perf_counter() - t_start) * 1000
 
         return {
-            "answer": cleaned,
+            "answer": answer,
             "raw_answer": raw_answer.strip(),
-            "tokens": len(prompt.split()) + len(raw_answer.split()),
-            "latency_ms": (time.perf_counter() - t_start) * 1000,
+            "tokens": composer_result.get("tokens_est", 0),
+            "latency_ms": latency_ms,
             "agents_executed": ["retriever", "composer"],
             "agents_pruned": [],
             "retrieved_context": evidence,
@@ -128,7 +128,7 @@ class EvalConfig:
 
     # Evaluation
     limit: int = 0  # 0 = all examples
-    retrieval_k: int = 6
+    retrieval_k: int = 4
 
     # Pruning
     lambda_redundancy: float = 0.3
@@ -417,7 +417,7 @@ class Evaluator:
 
         # Pruner
         if pruning_policy == "none":
-            pruner = None
+            pruner = StaticPruner(keep_set=("retriever", "composer"))
         elif pruning_policy == "lazy_greedy":
             pruner = LazyGreedyPruner(lambda_redundancy=self.config.lambda_redundancy)
         elif pruning_policy == "risk_controlled":
@@ -541,7 +541,11 @@ class Evaluator:
                 pruned = []
                 if pruner:
                     logs = pruner.export_logs()
-                    pruned = [log["agent"] for log in logs if log.get("decision") == "pruned"]
+                    for log in logs:
+                        if log.get("decision") == "pruned":
+                            node_name = log.get("agent") or log.get("node")
+                            if node_name:
+                                pruned.append(node_name)
                     pruner.reset_logs()
 
                 return {
@@ -803,7 +807,7 @@ def main():
     parser.add_argument("--embed_model", default="sentence-transformers/all-MiniLM-L6-v2")
     parser.add_argument("--device", type=int, default=0, help="GPU device (-1 for CPU)")
     parser.add_argument("--limit", type=int, default=0, help="Limit examples (0=all)")
-    parser.add_argument("--retrieval_k", type=int, default=6)
+    parser.add_argument("--retrieval_k", type=int, default=4)
     parser.add_argument("--lambda_redundancy", type=float, default=0.3)
     parser.add_argument("--risk_budget_alpha", type=float, default=0.05)
     parser.add_argument("--budget_tokens", type=int, default=0, help="Token budget (0=unlimited)")

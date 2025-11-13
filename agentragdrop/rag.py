@@ -20,9 +20,30 @@ def _load_docs(data_path: str) -> List[Document]:
         if isinstance(r, str):
             docs.append(Document(page_content=r))
         elif "text" in r:
-            docs.append(Document(page_content=r["text"], metadata={k: v for k, v in r.items() if k != "text"}))
+            docs.append(
+                Document(
+                    page_content=r["text"],
+                    metadata={k: v for k, v in r.items() if k != "text"},
+                )
+            )
+        elif "context" in r and isinstance(r["context"], list):
+            # HotpotQA-style context: list of [title, [sentences...]]
+            for entry in r["context"]:
+                if not isinstance(entry, (list, tuple)) or len(entry) != 2:
+                    continue
+                title, sentences = entry
+                if isinstance(sentences, list):
+                    para = f"{title}. " + " ".join(s for s in sentences if isinstance(s, str))
+                else:
+                    para = f"{title}. {sentences}" if sentences else str(title)
+                docs.append(Document(page_content=para.strip(), metadata={"title": title}))
         elif "context" in r:
-            docs.append(Document(page_content=r["context"], metadata={k: v for k, v in r.items() if k != "context"}))
+            docs.append(
+                Document(
+                    page_content=r["context"],
+                    metadata={k: v for k, v in r.items() if k != "context"},
+                )
+            )
         else:
             docs.append(Document(page_content=str(r)))
     return docs
