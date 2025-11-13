@@ -8,7 +8,7 @@ class AgentResult(dict):
     pass
 
 class RetrieverAgent:
-    def __init__(self, data_path, embed_model="sentence-transformers/all-MiniLM-L6-v2", top_k=6):
+    def __init__(self, data_path, embed_model="sentence-transformers/all-MiniLM-L6-v2", top_k=8):
         self.retriever = make_retriever(data_path, embed_model=embed_model, k=top_k)
         self.vs = self.retriever.vectorstore
         self.top_k = top_k
@@ -21,13 +21,20 @@ class RetrieverAgent:
         t_start = time.perf_counter()
         
         k = k or self.top_k
-        results = self.vs.similarity_search_with_score(question, k=k)
+        fetch_k = max(k * 2, k)
+        try:
+            results = self.vs.max_marginal_relevance_search_with_score(
+                question, k=k, fetch_k=fetch_k
+            )
+        except AttributeError:
+            results = self.vs.similarity_search_with_score(question, k=k)
 
         hits, evidence = [], []
-        for doc, dist in results:
-            score = 1.0 / (1.0 + float(dist))
+        for doc, score in results:
             text = doc.page_content
-            hits.append(({"text": text}, score))
+            raw_score = float(score)
+            similarity = 1.0 / (1.0 + abs(raw_score))
+            hits.append(({"text": text}, similarity))
             evidence.append(text)
         
         t_elapsed = time.perf_counter() - t_start
@@ -153,19 +160,29 @@ class ComposerAgent:
 
     def __call__(self, question, evidence: List[str], validator=None, critic=None):
         t_start = time.perf_counter()
-        
-        validator_flag = (validator or {}).get("verdict", "unknown") if isinstance(validator, dict) else "unknown"
-        critic_flag = (critic or {}).get("notes", "ok") if isinstance(critic, dict) else "ok"
+
         prompt = (
-            "You are the Composer. Use only the evidence. Return a SHORT PHRASE copied verbatim from the evidence when possible. Do NOT explain.\n"
-            "If the answer cannot be determined from the evidence, output exactly: unknown.\n"
-            f"Question: {question}\n"
-            "Evidence:\n" + "\n".join(f"- {e[:400]}" for e in (evidence or [])[:4]) + "\n"
-            f"Validator Verdict: {validator_flag}\n"
-            f"Critic Notes: {critic_flag}\n"
-            "Answer:"
+            "You are answering questions using provided context. "
+            "Give ONLY the direct answer — a name, number, yes/no, or a very short phrase. "
+            "Do NOT write explanations or full sentences.\n"
+            "If the answer cannot be determined from the context, output exactly: unknown.\n\n"
+            "Examples of good answers:\n"
+            "Q: What government position was held by the woman who portrayed Corliss Archer in the film Kiss and Tell?\n"
+            "Context: 1. Shirley Temple held the position of U.S. Ambassador... 2. Kiss and Tell starred Shirley Temple as Corliss Archer...\n"
+            "A: U.S. Ambassador\n\n"
+            "Q: Were Scott Derrickson and Ed Wood of the same nationality?\n"
+            "Context: 1. Scott Derrickson is an American filmmaker. 2. Ed Wood was an American filmmaker...\n"
+            "A: yes\n\n"
+            "Q: What year was the creator of Vampire: The Masquerade born?\n"
+            "Context: 1. Mark Rein-Hagen created Vampire: The Masquerade. 2. Mark Rein-Hagen was born in 1964...\n"
+            "A: 1964\n\n"
+            f"Q: {question}\n"
+            "Context:\n" + "\n".join(
+                f"{i + 1}. {snippet[:280]}" for i, snippet in enumerate((evidence or [])[:6])
+            ) + "\n"
+            "A:"
         )
-        ans = self.llm.generate(prompt, max_new_tokens=128)
+        ans = self.llm.generate(prompt, max_new_tokens=32)
         cleaned = clean_answer(ans, question)
         if not cleaned:
             cleaned = "unknown"

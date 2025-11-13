@@ -27,7 +27,7 @@ class ExecutionDAG:
 
         # Determine the execution plan (which nodes to skip)
         order_to_check = [node.name for node in self.nodes]
-        nodes_to_skip = set(pruner.decide(order_to_check, ctx)) if pruner else set()
+        nodes_to_skip = set(pruner.decide(order_to_check, ctx, budget_tokens=budget_tokens)) if pruner else set()
 
         for node in self.nodes:
             # --- Anytime Budget Checks ---

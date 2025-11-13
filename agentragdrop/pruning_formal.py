@@ -153,6 +153,12 @@ class FacetExtractor:
 # SUBMODULAR UTILITY FUNCTION
 # ============================================================================
 
+STOPWORDS = {
+    "the", "a", "an", "of", "to", "in", "and", "for", "on", "with", "from",
+    "by", "as", "at", "is", "are", "was", "were"
+}
+
+
 class SubmodularUtility:
     """
     Formal submodular utility function over agent execution.
@@ -167,7 +173,7 @@ class SubmodularUtility:
         
         Redundancy(S) = (1/|S|²) Σ_{v₁,v₂ ∈ S, v₁≠v₂} Jaccard(E(v₁), E(v₂))
         
-        λ = redundancy penalty (default 0.3)
+        λ = redundancy penalty (default 0.1)
     
     Properties:
         - Monotone: f(S ∪ {v}) ≥ f(S)
@@ -175,7 +181,7 @@ class SubmodularUtility:
         - Normalized: f(∅) = 0, f(V) ≤ 1
     """
     
-    def __init__(self, query: str, lambda_redundancy: float = 0.3):
+    def __init__(self, query: str, lambda_redundancy: float = 0.1):
         """
         Initialize utility function for a query.
         
@@ -328,8 +334,12 @@ class SubmodularUtility:
         
         Uses word-level tokens for efficiency.
         """
-        words1 = set(text1.lower().split())
-        words2 = set(text2.lower().split())
+        words1 = {
+            w for w in re.findall(r"\w+", text1.lower()) if w not in STOPWORDS
+        }
+        words2 = {
+            w for w in re.findall(r"\w+", text2.lower()) if w not in STOPWORDS
+        }
         
         if not words1 or not words2:
             return 0.0
@@ -432,7 +442,7 @@ class LazyGreedyPruner:
     def __init__(
         self, 
         must_include: Optional[Set[str]] = None,
-        lambda_redundancy: float = 0.3
+        lambda_redundancy: float = 0.1
     ):
         """
         Initialize lazy greedy pruner.
@@ -594,9 +604,9 @@ class LazyGreedyPruner:
         # Base costs (input + expected output)
         base_costs = {
             "retriever": 10,      # Minimal (index lookup)
-            "validator": 80,      # LLM call for relevance
-            "critic": 100,        # LLM call for consistency
-            "composer": 150       # LLM call for generation
+            "validator": 90,      # LLM call for relevance
+            "critic": 110,        # LLM call for consistency
+            "composer": 320       # LLM call for generation
         }
         
         base = base_costs.get(agent, 50)
@@ -685,7 +695,7 @@ class RiskControlledPruner:
         self,
         risk_budget_alpha: float = 0.05,
         must_include: Optional[Set[str]] = None,
-        lambda_redundancy: float = 0.3
+        lambda_redundancy: float = 0.1
     ):
         """
         Initialize risk-controlled pruner.
@@ -805,23 +815,8 @@ class RiskControlledPruner:
         
         for facet in required_facets:
             covering_agents: Set[str] = set()
-            facet_id = facet.facet_id
 
-            if facet_id.startswith("entity_") or facet_id.startswith("keyword_"):
-                if "retriever" in candidate_agents:
-                    covering_agents.add("retriever")
-
-            if facet_id.startswith("type_"):
-                if "retriever" in candidate_agents:
-                    covering_agents.add("retriever")
-                if facet_id == "type_boolean":
-                    if "validator" in candidate_agents:
-                        covering_agents.add("validator")
-                elif facet_id in {"type_number", "type_time"}:
-                    if "critic" in candidate_agents:
-                        covering_agents.add("critic")
-
-            if not covering_agents and "retriever" in candidate_agents:
+            if "retriever" in candidate_agents:
                 covering_agents.add("retriever")
 
             requirements.append(FacetCoverageRequirement(
@@ -935,7 +930,7 @@ def test_submodularity():
     print("="*70)
     
     query = "Who directed the movie that won Best Picture in 2020?"
-    utility = SubmodularUtility(query, lambda_redundancy=0.3)
+    utility = SubmodularUtility(query, lambda_redundancy=0.1)
     
     # Mock context
     context = {
@@ -986,7 +981,7 @@ def test_monotonicity():
     print("="*70)
     
     query = "What is the capital of France?"
-    utility = SubmodularUtility(query, lambda_redundancy=0.3)
+    utility = SubmodularUtility(query, lambda_redundancy=0.1)
     
     context = {
         "question": query,
@@ -1140,7 +1135,7 @@ def test_approximation_ratio():
     print(f"\nQuery: {query}")
     print(f"Computing greedy vs optimal (brute force)...\n")
     
-    utility_fn = SubmodularUtility(query, lambda_redundancy=0.3)
+    utility_fn = SubmodularUtility(query, lambda_redundancy=0.1)
     pruner = LazyGreedyPruner()
     
     # Small agent set for brute force

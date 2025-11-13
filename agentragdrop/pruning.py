@@ -69,7 +69,12 @@ class ExecutionCache:
 
 def _relevance(ctx):
     hits = ctx.get("retriever", {}).get("hits", [])
-    return hits[0][1] if hits else 0.0
+    if not hits:
+        return 0.0
+    top_scores = [score for _, score in hits[:3] if isinstance(score, (int, float))]
+    if not top_scores:
+        return 0.0
+    return sum(top_scores) / len(top_scores)
 
 def _novelty(ctx):
     evidence = ctx.get("retriever", {}).get("evidence", [])
@@ -104,7 +109,7 @@ def _bytes(ctx):
 
 def _cost(node, ctx):
     # Base cost estimates (e.g., in ms or arbitrary units)
-    base = {"retriever": 10, "validator": 80, "critic": 100, "composer": 150}.get(node, 50)
+    base = {"retriever": 10, "validator": 90, "critic": 110, "composer": 320}.get(node, 50)
 
     # Network cost component
     site_name = placement_for(node)
@@ -133,7 +138,7 @@ class BasePruner:
             "decision_overhead_ms": round(dt_ms, 3), "site": placement_for(node)
         })
 
-    def decide(self, order, ctx) -> List[str]:
+    def decide(self, order, ctx, budget_tokens: int | None = None) -> List[str]:
         raise NotImplementedError
 
 class HeuristicPruner(BasePruner):
@@ -142,7 +147,7 @@ class HeuristicPruner(BasePruner):
         self.threshold = threshold
         self.lam = lam
 
-    def decide(self, order, ctx):
+    def decide(self, order, ctx, budget_tokens: int | None = None):
         skip = []
         for n in order:
             t0 = time.perf_counter()
@@ -151,9 +156,10 @@ class HeuristicPruner(BasePruner):
             score = util / (1.0 + self.lam * cost)
 
             keep = (score >= self.threshold) or (n in self.must_include)
-            # Safety guardrail example
-            if n == "critic" and parts["rel"] < 0.25:
-                keep = False
+            if n == "validator":
+                keep = keep and (_relevance(ctx) < 0.55)
+            if n == "critic":
+                keep = keep and (_novelty(ctx) > 0.35)
 
             dt = (time.perf_counter() - t0) * 1000.0
             self._log(n, util, cost, score, "kept" if keep else "pruned", dt, "heuristic")
@@ -166,7 +172,7 @@ class GreedyPruner(BasePruner):
         super().__init__(**kw)
         self.threshold = threshold
 
-    def decide(self, order, ctx):
+    def decide(self, order, ctx, budget_tokens: int | None = None):
         pruned = []
         for n in order:
             t0 = time.perf_counter()
@@ -186,7 +192,7 @@ class EpsilonGreedyPruner(BasePruner):
         self.epsilon = epsilon
         self.threshold = threshold
 
-    def decide(self, order, ctx):
+    def decide(self, order, ctx, budget_tokens: int | None = None):
         skip = []
         for n in order:
             t0 = time.perf_counter()
@@ -212,7 +218,7 @@ class RandomPruner(BasePruner):
         super().__init__(**kw)
         self.p = p
 
-    def decide(self, order, ctx):
+    def decide(self, order, ctx, budget_tokens: int | None = None):
         skip = []
         for n in order:
             t0 = time.perf_counter()
@@ -228,7 +234,7 @@ class StaticPruner(BasePruner):
         super().__init__(**kw)
         self.keep_set = set(keep_set) | self.must_include
 
-    def decide(self, order, ctx):
+    def decide(self, order, ctx, budget_tokens: int | None = None):
         skip = []
         for n in order:
             t0 = time.perf_counter()

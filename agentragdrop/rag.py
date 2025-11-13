@@ -38,9 +38,12 @@ def build_or_load_vectorstore(data_path: str, embed_model: str = "sentence-trans
     vs.save_local(vecdir)
     return vs
 
-def make_retriever(data_path: str, embed_model: str = "sentence-transformers/all-MiniLM-L6-v2", k: int = 6):
+def make_retriever(data_path: str, embed_model: str = "sentence-transformers/all-MiniLM-L6-v2", k: int = 8):
     vs = build_or_load_vectorstore(data_path, embed_model=embed_model)
-    retriever = vs.as_retriever(search_kwargs={"k": k})
-    # Attach vectorstore for advanced access (e.g., similarity_search_with_score)
+    retriever = vs.as_retriever(
+        search_type="mmr",
+        search_kwargs={"k": k, "lambda_mult": 0.5}
+    )
+    # Attach vectorstore for advanced access (e.g., mmr search with scores)
     retriever.vectorstore = vs
     return retriever

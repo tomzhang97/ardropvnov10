@@ -46,7 +46,7 @@ def _is_yes_no_question(question: str) -> bool:
     return "yes or no" in question
 
 
-def clean_answer(raw: str, question: Optional[str] = None, *, max_tokens: int = 6) -> str:
+def clean_answer(raw: str, question: Optional[str] = None, *, max_tokens: int = 8) -> str:
     """Normalize a free-form model answer into a short canonical span.
 
     Args:
