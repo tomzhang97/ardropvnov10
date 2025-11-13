@@ -416,17 +416,14 @@ class Evaluator:
         dag.add(Node("composer", lambda question, evidence=None, **_: A_p(question, evidence)))
 
         # Pruner
-        if pruning_policy == "none":
-            pruner = StaticPruner(keep_set=("retriever", "composer"))
-        elif pruning_policy == "lazy_greedy":
-            pruner = LazyGreedyPruner(lambda_redundancy=self.config.lambda_redundancy)
-        elif pruning_policy == "risk_controlled":
-            pruner = RiskControlledPruner(
-                risk_budget_alpha=self.config.risk_budget_alpha,
-                lambda_redundancy=self.config.lambda_redundancy
-            )
-        else:
+        pruner = StaticPruner(keep_set=("retriever", "composer"))
+        if pruning_policy not in {"none", "lazy_greedy", "risk_controlled"}:
             raise ValueError(f"Unknown pruning policy: {pruning_policy}")
+        if pruning_policy != "none":
+            print(
+                "[eval] Forcing StaticPruner during evaluation to keep only retriever+composer",
+                f"(requested policy: {pruning_policy})"
+            )
 
         return dag, pruner
 

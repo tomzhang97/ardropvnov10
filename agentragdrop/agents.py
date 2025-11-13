@@ -66,7 +66,7 @@ class AgentResult(dict):
     pass
 
 class RetrieverAgent:
-    def __init__(self, data_path, embed_model="sentence-transformers/all-MiniLM-L6-v2", top_k=8):
+    def __init__(self, data_path, embed_model="sentence-transformers/all-MiniLM-L6-v2", top_k=4):
         self.retriever = make_retriever(data_path, embed_model=embed_model, k=top_k)
         self.vs = self.retriever.vectorstore
         self.top_k = top_k
@@ -264,11 +264,13 @@ class RAGComposerAgent:
                 docs = self.retriever.invoke(question)
             elif hasattr(self.retriever, "get_relevant_documents"):
                 docs = self.retriever.get_relevant_documents(question)
-            elif hasattr(self.retriever, "vectorstore"):
-                try:
-                    docs = self.retriever.vectorstore.similarity_search(question, k=MAX_CONTEXT_ITEMS + 2)
-                except Exception:
-                    docs = []
+            else:
+                vecstore = getattr(self.retriever, "vectorstore", None)
+                if vecstore is not None:
+                    try:
+                        docs = vecstore.similarity_search(question, k=MAX_CONTEXT_ITEMS + 2)
+                    except Exception:
+                        docs = []
             evidence_list = [getattr(d, "page_content", str(d)) for d in (docs or [])]
 
         prompt = _build_direct_answer_prompt(question, evidence_list)
